@@ -1,5 +1,5 @@
-require "bizflow/task_block_incubator"
-require "bizflow/automated_block_incubator"
+require "bizflow/incubators/task_block_incubator"
+require "bizflow/incubators/automated_block_incubator"
 require "bizflow/domain_model/process"
 
 class Bizflow::ProcessIncubator

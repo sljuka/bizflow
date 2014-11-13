@@ -6,8 +6,11 @@ require "bizflow/domain_builder"
 describe Bizflow::DomainBuilder do
 
   let(:repo)    { Bizflow::DomainRepo.new }
-  let(:builder) { Bizflow::DomainBuilder.new(repo, File.expand_path("#{File.dirname(__FILE__)}/biz_definition")) }
-  let(:domain_incubator) { double(block: true)}
+  let(:builder) { Bizflow::DomainBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/biz_definition")) }
+
+  before :each do
+    builder.repo = repo
+  end
 
   # it "calls incubators while building the the domain" do
   #   builder.domain_incubator = domain_incubator

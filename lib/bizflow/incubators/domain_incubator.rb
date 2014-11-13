@@ -1,4 +1,4 @@
-require "bizflow/process_incubator"
+require "bizflow/incubators/process_incubator"
 
 
 class Bizflow::DomainIncubator

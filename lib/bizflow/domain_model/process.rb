@@ -6,6 +6,7 @@ class Bizflow::Process
     @name = name
     @automated_blocks = {}
     @task_blocks = {}
+    @roles = []
   end
 
   def add_automated_block(block)

@@ -1,12 +1,12 @@
 require "bizflow/domain_model/domain_repo"
-require "bizflow/domain_incubator"
+require "bizflow/incubators/domain_incubator"
 
 class Bizflow::DomainBuilder
 
   attr_accessor :repo, :source_path, :domain_incubator
 
-  def initialize(repo, source_path)
-    @repo = repo
+  def initialize(source_path)
+    @repo = Bizflow::DomainRepo.new
     @source_path = source_path
   end
 

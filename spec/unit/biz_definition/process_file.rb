@@ -26,7 +26,7 @@ process "make_breakfast" do
     description "get enaugh eggs, bacon and bread"
     task "get_bacon", ["storage", "kitchen"], "optional description"
     task "get_eggs", ["storage", "kitchen"]
-    task "get_bread", "storage"
+    task "get_bread", ["storage"]
 
     next_block "make_breakfast"
 
