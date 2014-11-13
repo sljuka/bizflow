@@ -1,8 +1,6 @@
 require "bizflow/task_block_incubator"
 require "bizflow/automated_block_incubator"
-require "bizflow/process"
-require "bizflow/task_block"
-require "bizflow/automated_block"
+require "bizflow/domain_model/process"
 
 class Bizflow::ProcessIncubator
 
@@ -23,7 +21,7 @@ class Bizflow::ProcessIncubator
   def task_block(name, &block)
     task_block_incubator = Bizflow::TaskBlockIncubator.new(name)
     task_block_incubator.instance_eval(&block)
-    @process.add_automated_block(task_block_incubator.block)
+    @process.add_task_block(task_block_incubator.block)
   end
 
   def description(description)

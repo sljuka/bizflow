@@ -1,5 +1,6 @@
 
-require "bizflow/task_block"
+require "bizflow/domain_model/task_block"
+require "bizflow/domain_model/task"
 
 class Bizflow::TaskBlockIncubator
 
@@ -10,15 +11,15 @@ class Bizflow::TaskBlockIncubator
   end
 
   def next_block(name)
-
+    @block.next_block = name
   end
 
   def description(description)
-
+    @block.description = description
   end 
 
-  def tasks(tasks)
-
+  def task(task, roles, description = nil)
+    @block.add_task(Bizflow::Task.new(task, roles, description))
   end
 
   def roles(roles)

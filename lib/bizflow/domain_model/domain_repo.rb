@@ -1,17 +1,16 @@
 
 class Bizflow::DomainRepo
 
-  attr_accessor :processes, :handlers
+  attr_accessor :processes
 
   def initialize
 
     @processes = {}
-    @handlers = {}
 
   end
 
   def add_process(process)
-    @processes[process.name] = process
+    @processes[process.name.to_sym] = process
   end
 
 

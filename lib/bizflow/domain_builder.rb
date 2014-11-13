@@ -1,4 +1,4 @@
-require "bizflow/domain_repo"
+require "bizflow/domain_model/domain_repo"
 require "bizflow/domain_incubator"
 
 class Bizflow::DomainBuilder

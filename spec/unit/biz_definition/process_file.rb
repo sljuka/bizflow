@@ -1,3 +1,4 @@
+
 process "make_breakfast" do
 
   description "creates breakfast"
@@ -11,9 +12,9 @@ process "make_breakfast" do
   automated_block "check_supplies" do
     
     description "checks if there are enaugh eggs, bacon and bread"
-    handler "breakfast:check_supplies"
+    handler "breakfast:check_supplies", "code which checks the supplies"
 
-    next_block(
+    next_blocks(
       not_enaugh_supplies: "get_supplies",
       enaugh_supplies: "make_breakfast"
     )
@@ -23,8 +24,9 @@ process "make_breakfast" do
   task_block "get_supplies" do
 
     description "get enaugh eggs, bacon and bread"
-    tasks ["get_bacon", "get_eggs", "get_bread"]
-    roles ["kitchen", "storage"]
+    task "get_bacon", ["storage", "kitchen"], "optional description"
+    task "get_eggs", ["storage", "kitchen"]
+    task "get_bread", "storage"
 
     next_block "make_breakfast"
 
@@ -35,13 +37,14 @@ process "make_breakfast" do
     description "sets stove, fry eggs, roast bacon"
     handler "breakfast:make_breakfast"
 
-    next_block "serve_breakfast"
+    next_blocks(success: "serve_breakfast")
   end
 
   task_block "serve_breakfast" do
 
     description "prepare table, slice bread"
-    tasks ["prepare_table, slice_bread"]
+    task "prepare_table", ["servers"]
+    task "slice_bread", ["kitchen"]
 
     next_block "process:finish"
 

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-require "bizflow/domain_repo"
+require "bizflow/domain_model/domain_repo"
 
 describe Bizflow::DomainRepo do
 
