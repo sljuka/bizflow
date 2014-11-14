@@ -17,6 +17,7 @@ class Bizflow::DomainBuilder
     source_files.each do |path|
       @domain_incubator.instance_eval(File.read(path), path, __LINE__)
     end
+    repo
 
   end
 

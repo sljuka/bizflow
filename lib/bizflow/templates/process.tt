@@ -1,0 +1,23 @@
+module Processes
+  module <%= classy_name(namespace) %>
+    class <%= classy_name(name) %> < Bizflow::BusinessProcess
+
+      Blocks = {
+        <% automated_blocks.each do |_, blck| %>
+        <%= blck.name %>: {
+          description: "<%= blck.description %>"
+          handler: Handlers::<%= classy_name(blck.handler.namespace) %>::<%= classy_name(blck.handler.name) %>,
+          next_blocks: {<% blck.next_blocks.each do |k, v| %>
+            <%= k %>: <%= v %>,<% end %>
+          }
+        },
+        <% end %>
+      }
+
+      Tasks = {
+
+      }
+
+    end
+  end
+end
