@@ -12,9 +12,9 @@ describe Bizflow::DomainBuilder do
     builder.repo = repo
   end
 
-  # it "calls incubators while building the the domain" do
-  #   builder.domain_incubator = domain_incubator
-  #   expect(domain_incubator).to receive(:process)
+  # it "calls interpreters while building the the domain" do
+  #   builder.domain_interpreter = domain_interpreter
+  #   expect(domain_interpreter).to receive(:process)
   #   builder.build
 
   # end
@@ -40,6 +40,7 @@ describe Bizflow::DomainBuilder do
     builder.build
 
     check_supplies = repo.processes[:make_breakfast].automated_blocks[:check_supplies]
+    
     expect(check_supplies.name).to eq("check_supplies")
     expect(check_supplies.description).to eq("checks if there are enaugh eggs, bacon and bread")
     expect(check_supplies.handler.full_name).to eq("breakfast:check_supplies")

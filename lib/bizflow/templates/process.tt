@@ -3,18 +3,31 @@ module Processes
     class <%= classy_name(name) %> < Bizflow::BusinessProcess
 
       Blocks = {
-        <% automated_blocks.each do |_, blck| %>
+      <% automated_blocks.each do |_, blck| %>
         <%= blck.name %>: {
-          description: "<%= blck.description %>"
+          description: "<%= blck.description %>",
           handler: Handlers::<%= classy_name(blck.handler.namespace) %>::<%= classy_name(blck.handler.name) %>,
-          next_blocks: {<% blck.next_blocks.each do |k, v| %>
-            <%= k %>: <%= v %>,<% end %>
+          next_blocks: {<% blck.next_blocks.each do |k, v| %> 
+            <%= k %>: "<%= v %>",<% end %>
           }
+        },
+        <% end %>
+      <% task_blocks.each do |_, blck| %>
+        <%= blck.name %>: {
+          description: "<%= blck.description %>",
+          next_block: "<%= blck.next_block %>",
+          tasks: [<%= blck.tasks.map {|t| ":#{t.name}"}.join(", ") %>]
         },
         <% end %>
       }
 
       Tasks = {
+      <% all_tasks.each do |task| %>
+        <%= task.name %>: {
+          description: "<%= task.description %>",
+          roles: <%= task.roles %>
+        },
+      <% end %>
 
       }
 

@@ -1,9 +1,9 @@
 require "bizflow/domain_model/domain_repo"
-require "bizflow/incubators/domain_incubator"
+require "bizflow/interpreters/domain_interpreter"
 
 class Bizflow::DomainBuilder
 
-  attr_accessor :repo, :source_path, :domain_incubator
+  attr_accessor :repo, :source_path, :domain_interpreter
 
   def initialize(source_path)
     @repo = Bizflow::DomainRepo.new
@@ -13,9 +13,9 @@ class Bizflow::DomainBuilder
 
   def build
 
-    @domain_incubator = Bizflow::DomainIncubator.new(repo)
+    @domain_interpreter = Bizflow::DomainInterpreter.new(repo)
     source_files.each do |path|
-      @domain_incubator.instance_eval(File.read(path), path, __LINE__)
+      @domain_interpreter.instance_eval(File.read(path), path, __LINE__)
     end
     repo
 

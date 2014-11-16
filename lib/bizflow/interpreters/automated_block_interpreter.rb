@@ -2,7 +2,7 @@
 require "bizflow/domain_model/automated_block"
 require "bizflow/domain_model/handler"
 
-class Bizflow::AutomatedBlockIncubator
+class Bizflow::AutomatedBlockInterpreter
 
   attr_accessor :block
 

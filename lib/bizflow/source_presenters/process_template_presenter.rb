@@ -30,4 +30,12 @@ class Bizflow::ProcessTemplatePresenter < SimpleDelegator
 
   end
 
+  def all_tasks
+    tasks = []
+    task_blocks.each do |_, ab|
+      tasks += ab.tasks
+    end
+    tasks
+  end
+
 end

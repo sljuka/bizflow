@@ -2,7 +2,7 @@
 require "bizflow/domain_model/task_block"
 require "bizflow/domain_model/task"
 
-class Bizflow::TaskBlockIncubator
+class Bizflow::TaskBlockInterpreter
 
   attr_accessor :block
 
