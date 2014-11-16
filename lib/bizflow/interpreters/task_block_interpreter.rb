@@ -22,8 +22,4 @@ class Bizflow::TaskBlockInterpreter
     @block.add_task(Bizflow::Task.new(task, roles, description))
   end
 
-  def roles(roles)
-
-  end
-
 end
