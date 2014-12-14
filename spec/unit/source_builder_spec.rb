@@ -12,9 +12,21 @@ describe Bizflow::SourceGenerator do
     #FileUtils.rm_rf("#{File.dirname(__FILE__)}/source_test/.", secure: true)
   end
 
-  it "generates source code" do
+  it "generates process source code" do
 
-    generator.generate("#{File.dirname(__FILE__)}/source_test")
+    source_path = "#{File.dirname(__FILE__)}/source_test"
+    generator.generate(source_path)
+    process_source_files = Dir["#{source_path}/**/*.rb"].map {|path| File.basename(path)}
+    expect(process_source_files).to include "make_breakfast.rb"
+
+  end
+
+  it "generates handler source code" do
+
+    source_path = "#{File.dirname(__FILE__)}/source_test"
+    generator.generate(source_path)
+    process_source_files = Dir["#{source_path}/**/*.rb"].map {|path| File.basename(path)}
+    expect(process_source_files).to include "make_breakfast.rb"    
 
   end
 

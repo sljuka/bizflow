@@ -22,7 +22,7 @@ module Processes
       }
 
       Tasks = {
-      <% all_tasks.each do |task| %>
+      <% tasks.each do |task| %>
         <%= task.name %>: {
           description: "<%= task.description %>",
           roles: <%= task.roles %>

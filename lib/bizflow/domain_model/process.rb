@@ -17,4 +17,12 @@ class Bizflow::Process
     @task_blocks[block.name.to_sym] = block
   end
 
+  def handlers
+    automated_blocks.values.map(&:handler)
+  end
+
+  def tasks
+    task_blocks.values.map(&:tasks).flatten
+  end
+
 end
