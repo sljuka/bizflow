@@ -1,8 +1,8 @@
 
 class Bizflow::BuildCommand
 
-  def self.run
-    puts "command run"
+  def self.run(command, args)
+    puts "command #{command} #{args}"
   end
 
 
