@@ -7,6 +7,11 @@ args = ARGV.dup
 ARGV.clear
 command = args.shift.strip rescue 'help'
 
+require "bizflow/command/command_helper"
 require "bizflow/command/build_command"
 
-Bizflow::Command::BuildCommand.run(command, args)
+if Bizflow::CommandHelper::CommandList.include?(command)
+  Bizflow::BuildCommand.run(command, args)
+else
+  puts "command '#{command}' not recognized"
+end

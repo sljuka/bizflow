@@ -4,7 +4,7 @@ require 'bizflow/source_presenters/process_template_presenter'
 
 class Bizflow::SourceGenerator
 
-  TemplatesPath = "#{File.dirname(__FILE__)}/templates"
+  TemplatesPath = "#{File.dirname(__FILE__)}/templates/js"
 
   attr_reader :domain_repo
 
@@ -15,15 +15,15 @@ class Bizflow::SourceGenerator
 
   def generate(source_dest)
     generate_processes(source_dest)
-    generate_handlers(source_dest)
+    #generate_handlers(source_dest)
   end
 
   def generate_processes(source_dest)
 
     domain_repo.processes.each do |_, process|
       presenter = Bizflow::ProcessTemplatePresenter.new(process)
-      process_source = ERB.new(File.read("#{TemplatesPath}/process.tt")).result(presenter.get_binding)
-      out_file = File.new("#{source_dest}/#{presenter.name}.rb", "w")
+      process_source = ERB.new(File.read("#{TemplatesPath}/process.tt"), nil, '-').result(presenter.get_binding)
+      out_file = File.new("#{source_dest}/#{presenter.name}.json", "w")
       out_file.puts(process_source)
       out_file.close
     end

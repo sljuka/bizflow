@@ -19,4 +19,8 @@ class Bizflow::ProcessTemplatePresenter < SimpleDelegator
     name.camelcase_notation
   end
 
+  def process_roles_list
+    roles.map{|r| "\"#{r}\""}.join(", ")
+  end
+
 end

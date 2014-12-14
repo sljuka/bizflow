@@ -1,0 +1,40 @@
+{
+  "name" : "<%= name %>",
+  "namespace" : "<%= namespace %>",
+  "description" : "<%= description %>",
+  "start_block" : "<%= start_block %>",
+  "roles" : [<%= process_roles_list %>],
+
+  "automated_blocks" : [
+  <%- automated_blocks.each do |_, blck| -%>
+    {
+      "name" : "<%= blck.name %>",
+      "description" : "<%= blck.description %>",
+      "handler" : "<%= blck.handler.full_name %>",
+      "next_blocks" : {
+      <%- blck.next_blocks.each do |k, v| -%>
+        "<%= k %>" : "<%= v %>",
+      <%- end -%>
+      }
+    },
+  <%- end -%>
+  ],
+
+  "task_blocks" : [
+  <%- task_blocks.each do |_, blck| -%>
+    {
+      "name" : "<%= blck.name %>",
+      "description" : "<%= blck.description %>",
+      "next_block" : "<%= blck.next_block %>",
+      "tasks" : {
+      <%- blck.tasks.each do |task| -%>
+        "<%= task.name %>" : {
+          "description" : "<%= task.description %>",
+          "roles" : <%= task.roles %>
+        },
+      <%- end -%>
+      }
+    },
+  <%- end -%>
+  ]
+}
