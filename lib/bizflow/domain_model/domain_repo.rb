@@ -13,5 +13,8 @@ class Bizflow::DomainRepo
     @processes[process.name.to_sym] = process
   end
 
+  def get_binding
+    binding
+  end
 
 end

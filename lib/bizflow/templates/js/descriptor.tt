@@ -1,0 +1,9 @@
+[
+  <%- @processes.values.sort { |x, y| x.name <=> y.name }.each_with_index do |process, index| -%>
+  {
+    "human_name" : "<%= process.name.split('_').join(" ").capitalize %>",
+    "name" : "<%= process.name %>",
+    "description" : "<%= process.description %>"
+  }<%= "," if index < @processes.count - 1 %>
+  <%- end -%>
+]

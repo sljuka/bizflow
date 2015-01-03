@@ -15,6 +15,7 @@ class Bizflow::SourceGenerator
 
   def generate(source_dest)
     generate_processes(source_dest)
+    generate_processes_descriptor(source_dest)
     #generate_handlers(source_dest)
   end
 
@@ -43,6 +44,15 @@ class Bizflow::SourceGenerator
       end
     end
 
+  end
+
+  def generate_processes_descriptor(source_dest)
+
+    descriptor = ERB.new(File.read("#{TemplatesPath}/descriptor.tt"), nil, '-').result(domain_repo.get_binding)
+    out_file = File.new("#{source_dest}/process-descriptor.json", "w")
+    out_file.puts(descriptor)
+    out_file.close
+  
   end
 
 end

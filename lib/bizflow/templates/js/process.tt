@@ -26,14 +26,15 @@
       "name" : "<%= blck.name %>",
       "description" : "<%= blck.description %>",
       "next_block" : "<%= blck.next_block %>",
-      "tasks" : {
+      "tasks" : [
       <%- blck.tasks.each do |task| -%>
-        "<%= task.name %>" : {
+        {
+          "name" : "<%= task.name %>",
           "description" : "<%= task.description %>",
           "roles" : <%= task.roles %>
         },
       <%- end -%>
-      }
+      ]
     },
   <%- end -%>
   ]
