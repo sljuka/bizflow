@@ -1,34 +1,39 @@
+# this is a generated file. Don't modify it directly, since it will probably be regenerated later
+
 module Processes
   module <%= classy_name(namespace) %>
     class <%= classy_name(name) %> < Bizflow::BusinessProcess
 
+      StartBlock = "<%= start_block %>"
+
       Blocks = {
-      <% automated_blocks.each do |_, blck| %>
+      <%- automated_blocks.each do |_, blck| -%>
         <%= blck.name %>: {
           description: "<%= blck.description %>",
           handler: Handlers::<%= classy_name(blck.handler.namespace) %>::<%= classy_name(blck.handler.name) %>,
-          next_blocks: {<% blck.next_blocks.each do |k, v| %> 
-            <%= k %>: "<%= v %>",<% end %>
+          next_blocks: {
+          <%- blck.next_blocks.each do |k, v| -%>
+            <%= k %>: "<%= v %>",
+          <%- end -%>
           }
         },
-        <% end %>
-      <% task_blocks.each do |_, blck| %>
+      <%- end -%>
+      <%- task_blocks.each do |_, blck| -%>
         <%= blck.name %>: {
           description: "<%= blck.description %>",
           next_block: "<%= blck.next_block %>",
           tasks: [<%= blck.tasks.map {|t| ":#{t.name}"}.join(", ") %>]
         },
-        <% end %>
+      <%- end -%>
       }
 
       Tasks = {
-      <% tasks.each do |task| %>
+      <%- tasks.each do |task| -%>
         <%= task.name %>: {
           description: "<%= task.description %>",
           roles: <%= task.roles %>
         },
-      <% end %>
-
+      <%- end -%>
       }
 
     end

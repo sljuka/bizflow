@@ -10,8 +10,15 @@ command = args.shift.strip rescue 'help'
 require "bizflow/command/command_helper"
 require "bizflow/command/build_command"
 
-if Bizflow::CommandHelper::CommandList.include?(command)
-  Bizflow::BuildCommand.run(command, args)
+begin
+  require "#{Dir.pwd}/bizflow_config"
+rescue LoadError
+  puts "run bizflow install before continuing"
+  abort
+end
+
+if Bizflow::CommandHelper::CommandHash.keys.include?(command.to_sym)
+  Bizflow::CommandHelper::CommandHash[command.to_sym].run(BizflowConfig::Config, args: args)
 else
   puts "command '#{command}' not recognized"
 end

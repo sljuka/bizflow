@@ -2,10 +2,10 @@ class Bizflow::Task
 
   attr_accessor :name, :description, :roles
 
-  def initialize(name, roles, description = nil)
+  def initialize(name, options)
     @name = name
-    @roles = roles
-    @description = description
+    @roles = options[:roles]
+    @description = options[:description]
   end
 
 end

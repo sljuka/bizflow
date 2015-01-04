@@ -24,9 +24,9 @@ process "make_breakfast" do
   task_block "get_supplies" do
 
     description "get enaugh eggs, bacon and bread"
-    task "get_bacon", ["storage", "kitchen"], "optional description"
-    task "get_eggs", ["storage", "kitchen"]
-    task "get_bread", ["storage"]
+    task "get_bacon", roles: ["storage", "kitchen"], description: "optional description", auto_assign: true
+    task "get_eggs", roles: ["storage", "kitchen"]
+    task "get_bread", roles: ["storage"]
     next_block "make_breakfast"
 
   end
@@ -38,14 +38,15 @@ process "make_breakfast" do
     handler "breakfast:make_breakfast"
 
     next_blocks(success: "serve_breakfast")
+    
   end
 
 
   task_block "serve_breakfast" do
 
     description "prepare table, slice bread"
-    task "prepare_table", ["servers"]
-    task "slice_bread", ["kitchen"]
+    task "prepare_table", roles: ["servers"]
+    task "slice_bread", roles: ["kitchen"]
 
     next_block "process:finish"
 

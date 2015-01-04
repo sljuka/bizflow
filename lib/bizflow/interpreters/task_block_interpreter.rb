@@ -16,10 +16,10 @@ class Bizflow::TaskBlockInterpreter
 
   def description(description)
     @block.description = description
-  end 
+  end
 
-  def task(task, roles, description = nil)
-    @block.add_task(Bizflow::Task.new(task, roles, description))
+  def task(task, options)
+    @block.add_task(Bizflow::Task.new(task, options))
   end
 
 end
