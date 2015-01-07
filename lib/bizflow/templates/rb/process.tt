@@ -36,6 +36,18 @@ module Processes
       <%- end -%>
       }
 
+      def start_block
+        StartBlock
+      end
+
+      def blocks
+        Blocks
+      end
+
+      def tasks
+        Tasks
+      end
+
     end
   end
 end
