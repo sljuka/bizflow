@@ -9,6 +9,7 @@ module Processes
       Blocks = {
       <%- automated_blocks.each do |_, blck| -%>
         <%= blck.name %>: {
+          type: "auto",
           description: "<%= blck.description %>",
           handler: Handlers::<%= classy_name(blck.handler.namespace) %>::<%= classy_name(blck.handler.name) %>,
           next_blocks: {
@@ -20,6 +21,7 @@ module Processes
       <%- end -%>
       <%- task_blocks.each do |_, blck| -%>
         <%= blck.name %>: {
+          type: "task",
           description: "<%= blck.description %>",
           next_block: "<%= blck.next_block %>",
           tasks: [<%= blck.tasks.map {|t| ":#{t.name}"}.join(", ") %>]

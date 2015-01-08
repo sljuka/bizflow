@@ -1,6 +1,6 @@
 module Bizflow
 
-  class ProcessHead
+  class ProcessHead < SimpleDelegator
 
     attr_accessor :block, :process
 
