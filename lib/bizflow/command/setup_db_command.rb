@@ -12,6 +12,7 @@ module Bizflow
       # Create a database
       db.execute <<-SQL
         create table processes (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           process_type varchar(30),
           val int
         );
@@ -19,6 +20,7 @@ module Bizflow
 
       db.execute <<-SQL
         create table blocks (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           name varchar(30),
           val int
         );
@@ -26,19 +28,16 @@ module Bizflow
 
       db.execute <<-SQL
         create table tasks (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           name varchar(30),
           val int
         );
       SQL
 
-      # Execute a few inserts
-      {
-        "one" => 1,
-        "two" => 2,
-      }.each do |pair|
-        db.execute "insert into processes values ( ?, ? )", pair
-      end
-
+      # Execute a few inserts  
+      db.execute( "INSERT INTO processes ( process_type, val ) VALUES ( ?, ? )", ["order_type", 5])
+      db.execute( "INSERT INTO processes ( process_type, val ) VALUES ( ?, ? )", ["order_type2", 2])
+    
       # Find a few rows
       db.execute( "select * from processes" ) do |r|
         puts r

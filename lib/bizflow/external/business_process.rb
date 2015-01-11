@@ -6,7 +6,7 @@ module Bizflow
 
     attr_accessor :repo, :heads
 
-    def initialize(repo, user)
+    def initialize(user)
       @heads = []
       @repo = repo
       process = initialize_process(repo, user)
@@ -57,6 +57,25 @@ module Bizflow
     def create_process_header(process)
       head = repo.create_process_header(process_id: process.id, block_id: @start_block.id)
       heads.push()
+    end
+
+    def self.process_dir
+      @dir
+    end
+
+    def self.root
+      dir = self.class.process_dir
+      #puts "1 #{dir}"
+      10.times do |i|
+        files = Dir["#{dir}/*.rb"].map { |path| File.basename(path) }
+        #puts "2 #{files}"
+        break if(files.include?(ConfigFileName))
+        dir = File.expand_path("../", dir)
+        #puts "1 #{dir}"
+        raise "Unable to locate root directory" if i >= 9
+      end
+
+      dir
     end
 
   end

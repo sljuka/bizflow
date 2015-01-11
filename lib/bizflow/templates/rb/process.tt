@@ -4,6 +4,8 @@ module Processes
   module <%= classy_name(namespace) %>
     class <%= classy_name(name) %> < Bizflow::BusinessProcess
 
+      @dir = File.expand_path(__dir__)
+
       StartBlock = "<%= start_block %>"
 
       Blocks = {
