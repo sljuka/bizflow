@@ -1,57 +1,53 @@
 # this is a generated file. Don't modify it directly, since it will probably be regenerated later
 
-module Processes
-  module <%= classy_name(namespace) %>
-    class <%= classy_name(name) %> < Bizflow::BusinessProcess
+class <%= classy_name(name) %>Process < Bizflow::BusinessProcess
 
-      @dir = File.expand_path(__dir__)
+  @dir = File.expand_path(__dir__)
 
-      StartBlock = "<%= start_block %>"
+  StartBlock = "<%= start_block %>"
 
-      Blocks = {
-      <%- automated_blocks.each do |_, blck| -%>
-        <%= blck.name %>: {
-          type: "auto",
-          description: "<%= blck.description %>",
-          handler: Handlers::<%= classy_name(blck.handler.namespace) %>::<%= classy_name(blck.handler.name) %>,
-          next_blocks: {
-          <%- blck.next_blocks.each do |k, v| -%>
-            <%= k %>: "<%= v %>",
-          <%- end -%>
-          }
-        },
-      <%- end -%>
-      <%- task_blocks.each do |_, blck| -%>
-        <%= blck.name %>: {
-          type: "task",
-          description: "<%= blck.description %>",
-          next_block: "<%= blck.next_block %>",
-          tasks: [<%= blck.tasks.map {|t| ":#{t.name}"}.join(", ") %>]
-        },
+  Blocks = {
+  <%- automated_blocks.each do |_, blck| -%>
+    <%= blck.name %>: {
+      type: "auto",
+      description: "<%= blck.description %>",
+      handler: Handlers::<%= classy_name(blck.handler.namespace) %>::<%= classy_name(blck.handler.name) %>,
+      next_blocks: {
+      <%- blck.next_blocks.each do |k, v| -%>
+        <%= k %>: "<%= v %>",
       <%- end -%>
       }
+    },
+  <%- end -%>
+  <%- task_blocks.each do |_, blck| -%>
+    <%= blck.name %>: {
+      type: "task",
+      description: "<%= blck.description %>",
+      next_block: "<%= blck.next_block %>",
+      tasks: [<%= blck.tasks.map {|t| ":#{t.name}"}.join(", ") %>]
+    },
+  <%- end -%>
+  }
 
-      Tasks = {
-      <%- tasks.each do |task| -%>
-        <%= task.name %>: {
-          description: "<%= task.description %>",
-          roles: <%= task.roles %>
-        },
-      <%- end -%>
-      }
+  Tasks = {
+  <%- tasks.each do |task| -%>
+    <%= task.name %>: {
+      description: "<%= task.description %>",
+      roles: <%= task.roles %>
+    },
+  <%- end -%>
+  }
 
-      def start_block
-        StartBlock
-      end
-
-      def blocks
-        Blocks
-      end
-
-      def tasks
-        Tasks
-      end
-
-    end
+  def start_block
+    StartBlock
   end
+
+  def blocks
+    Blocks
+  end
+
+  def tasks
+    Tasks
+  end
+
 end

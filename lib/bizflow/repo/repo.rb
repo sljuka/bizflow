@@ -1,27 +1,25 @@
 require "sqlite3"
+require "data_mapper"
+require_relative "../model/process_model"
 
 module Bizflow
 
-  class BfRepo
+  class Repo
 
     attr_accessor :db
 
     def initialize(db_path)
-      @db = SQLite3::Database.new "#{db_path}/bizflow_db/bf.db"
-      @db.results_as_hash = true
+      DataMapper.setup(:default, "sqlite://#{db_path}/bizflow_db/bf.db")
+      DataMapper.auto_migrate!
+      puts "1"
     end
 
     def create(table_name, hash)
-      attributes = hash.keys.map(&:to_s).join(", ")
-      res = []
+      puts "2"
+      pm = ProcessModel.new(type: "bla", val: 12)
+      pm.save
+      ProcessModel.all
 
-      query = <<-SQL
-        INSERT INTO #{table_name} ( #{attributes} ) VALUES ( ?, ? );
-      SQL
-
-      db.execute(query, hash.values)
-      id = db.last_insert_row_id
-      read(table_name, id: id)
     end
 
     def read(table_name, where_hash = nil, where_statement = nil)

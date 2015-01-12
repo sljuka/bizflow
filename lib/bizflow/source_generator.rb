@@ -26,7 +26,7 @@ module Bizflow
       domain_repo.processes.each do |_, process|
         presenter = Bizflow::ProcessTemplatePresenter.new(process)
         process_source = ERB.new(File.read("#{RbTemplatesPath}/process.tt"), nil, '-').result(presenter.get_binding)
-        out_file = File.new("#{source_dest}/#{presenter.name}.rb", "w")
+        out_file = File.new("#{source_dest}/#{presenter.name}_process.rb", "w")
         out_file.puts(process_source)
         out_file.close
       end
@@ -40,7 +40,7 @@ module Bizflow
         handler_source = ERB.new(File.read("#{RbTemplatesPath}/handler.tt")).result(presenter.get_binding)
         Dir.mkdir "#{source_dest}/handlers"
         process.handlers.each do |handler|
-          out_file = File.new("#{source_dest}/handlers/#{handler.name}.rb", "w")
+          out_file = File.new("#{source_dest}/handlers/#{handler.name}_handler.rb", "w")
           out_file.puts(handler_source)
           out_file.close
         end
