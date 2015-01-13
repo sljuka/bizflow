@@ -1,81 +1,41 @@
 require "sqlite3"
 require "data_mapper"
-require_relative "../model/process_model"
+require_relative "../model/process"
+require_relative "../model/process_head"
+require_relative "../model/block"
+require_relative "../model/task"
+
+
 
 module Bizflow
 
   class Repo
 
-    attr_accessor :db
-
-    def initialize(db_path)
-      DataMapper.setup(:default, "sqlite://#{db_path}/bizflow_db/bf.db")
-      DataMapper.auto_migrate!
-      puts "1"
-    end
+    Tables = {
+      processes: Bizflow::Model::Process,
+      process_heads: Bizflow::Model::ProcessHead,
+      blocks: Bizflow::Model::Block,
+      tasks: Bizflow::Model::Task
+    }
 
     def create(table_name, hash)
-      puts "2"
-      pm = ProcessModel.new(type: "bla", val: 12)
-      pm.save
-      ProcessModel.all
-
+      Tables[table_name.to_sym].create(hash)
     end
 
     def read(table_name, where_hash = nil, where_statement = nil)
-
-      where_part = ""
-
-      if where_hash
-        statement = where_hash.map do |k, v|
-          "#{k} = #{v.is_a?(String) ? 'v' : v}"
-        end.join(" AND ")
-        where_part = "WHERE #{statement}"
+      if(where_hash)
+        Tables[table_name.to_sym].all(where_hash)
+      else
+        Tables[table_name.to_sym].all
       end
-
-      if where_statement
-        where_part = "WHERE #{where_statement}"
-      end
-
-      query = <<-SQL
-      SELECT * FROM #{table_name}
-      #{where_part}
-      SQL
-
-      res = []
-      db.execute query do |r|
-        res += [r]
-      end
-
-      res
     end
 
     def update(table_name, id, hash)
-      
-      set_statement = hash.map do |k, v|
-        "#{k} = #{v.is_a?(String) ? 'v' : v}"
-      end.join(", ")
-
-      db.execute <<-SQL
-      UPDATE #{table_name}
-      SET #{set_statement}
-      WHERE id = #{id}
-      SQL
-
-      read(table_name, id: id)
+      Tables[table_name.to_sym].get(id).update(hash)
     end
 
     def delete(table_name, ids)
-      res = read(table_name, id: id)
-      db.execute <<-SQL
-      DELETE FROM #{table_name}
-      WHERE id IN (#{ids.join(", ")});
-      SQL
-      res
-    end
-
-    def sql(sql)
-      db.execute sql
+      Tables[table_name.to_sym].all(id: ids).destroy
     end
 
   end
