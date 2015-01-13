@@ -1,4 +1,3 @@
-require 'data_mapper'
 
 module Bizflow
   module Model
