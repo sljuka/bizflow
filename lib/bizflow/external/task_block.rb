@@ -1,3 +1,5 @@
+require 'delegate'
+
 module Bizflow
 
   class TaskBlock

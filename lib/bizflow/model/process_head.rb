@@ -1,20 +1,13 @@
-require 'data_mapper'
+require 'sequel'
 
 module Bizflow
+
   module Model
-    class ProcessHead
-      
-      include DataMapper::Resource
 
-      def self.default_repository_name
-        :bfdb
-      end
-
-      property :id, Serial
-
-      belongs_to :process
-      belongs_to :block
+    class ProcessHead < Sequel::Model
 
     end
+
   end
+
 end
