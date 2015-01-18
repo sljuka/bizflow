@@ -1,8 +1,8 @@
-require 'delegate'
+require 'bizflow/external/simple_wrapper'
 
 module Bizflow
 
-  class TaskBlock
+  class TaskBlock < SimpleWrapper
 
 
   end

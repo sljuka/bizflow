@@ -1,25 +1,15 @@
-require 'delegate'
+require 'bizflow/external/simple_wrapper'
 
 module Bizflow
 
-  class BusinessProcess < SimpleDelegator
-
-    attr_accessor :repo, :heads
-
-    def initialize(user)
-      @heads = []
-      @repo = repo
-      process = initialize_process(repo, user)
-      super(process)
-    end
+  class BusinessProcess < SimpleWrapper
 
     def run
-      head = process.headers.first
-      head.jump
+      puts "process ran"
     end
 
     def finish
-
+      puts "process finished"
     end
 
     def start_block

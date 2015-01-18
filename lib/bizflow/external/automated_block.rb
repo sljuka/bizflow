@@ -1,8 +1,8 @@
-require 'delegate'
+require 'bizflow/external/simple_wrapper'
 
 module Bizflow
 
-  class AutomatedBlock
+  class AutomatedBlock < SimpleWrapper
 
     def initialize(process, user)
       self.task_type = "auto"

@@ -1,8 +1,8 @@
-require 'delegate'
+require 'bizflow/external/simple_wrapper'
 
 module Bizflow
 
-  class ProcessHead < SimpleDelegator
+  class ProcessHead < SimpleWrapper
 
     attr_accessor :block, :process
 

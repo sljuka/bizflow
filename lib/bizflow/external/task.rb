@@ -1,8 +1,8 @@
-require 'delegate'
+require 'bizflow/external/simple_wrapper'
 
 module Bizflow
 
-  class Task < SimpleDelegator
+  class Task < SimpleWrapper
 
     def assign(user_id)
 
