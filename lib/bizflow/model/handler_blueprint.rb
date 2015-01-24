@@ -7,8 +7,7 @@ module Bizflow
     class BlockBlueprint < Sequel::Model
 
       many_to_one :block_blueprint
-      one_to_many :handler_blueprints
-      one_to_many :task_blueprints
+      one_to_many :handlers
       
 
     end

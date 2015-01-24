@@ -1,17 +1,21 @@
 require "bizflow/domain_model/block"
 
-class Bizflow::TaskBlock < Bizflow::Block
+module Bizflow
 
-  attr_accessor :name, :description, :tasks, :next_block
+  class TaskBlock < Block
 
-  def initialize(name)
-    super
-    @tasks = []
-    @next_block 
-  end
+    attr_accessor :tasks, :next_block
 
-  def add_task(task)
-    tasks << task
+    def initialize(name)
+      super("task", name)
+      @tasks = []
+      @next_block 
+    end
+
+    def add_task(task)
+      tasks << task
+    end
+
   end
 
 end

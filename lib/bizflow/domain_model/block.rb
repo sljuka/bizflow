@@ -1,10 +1,13 @@
-class Bizflow::Block
+module Bizflow
+  class Block
 
-  attr_reader :name, :description
+    attr_reader :name, :description, :type
 
-  def initialize(name)
-    @name = name
-    @description = nil
+    def initialize(type, name)
+      @type = type
+      @name = name
+      @description = nil
+    end
+
   end
-
 end

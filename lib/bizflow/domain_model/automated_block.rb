@@ -2,10 +2,10 @@ require "bizflow/domain_model/block"
 
 class Bizflow::AutomatedBlock < Bizflow::Block
 
-  attr_accessor :name, :description, :next_blocks, :handler
+  attr_accessor :next_blocks, :handler
 
   def initialize(name)
-    super
+    super("auto", name)
     @next_blocks = {}
     @handler = nil
   end

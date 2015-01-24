@@ -7,7 +7,7 @@ module Bizflow
     class NextBlock < Sequel::Model
 
       many_to_one :block_blueprint
-      many_to_one :next_blockblueprint, :class => :BlockBlueprint
+      many_to_one :next_block_blueprint, :class => :BlockBlueprint
       
     end
 

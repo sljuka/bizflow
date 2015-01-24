@@ -8,7 +8,7 @@ module Bizflow
 
     # TODO what about merge
     def jump(block, block_descriptors, task_descriptors)
-      elsif block.type == "task"
+      if block.type == "task"
         wtb = TaskBlock.new(block)
         block.create_tasks(block_descriptors, task_descriptors)
       else
