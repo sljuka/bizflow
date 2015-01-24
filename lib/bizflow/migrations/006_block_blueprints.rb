@@ -1,11 +1,11 @@
 Sequel.migration do
   up do
-    create_table(:blocks) do
+    create_table(:block_blueprints) do
       primary_key :id
-      foreign_key :process_id, :processes
-      foreign_key :block_blueprint_id, :block_blueprints
+      foreign_key :process_blueprint_id, :process_blueprints
       String :name, :null => false
       String :type, :null => false
+      String :description
     end
   end
 

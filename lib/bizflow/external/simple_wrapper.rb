@@ -10,7 +10,6 @@ module Bizflow
 
     def self.wraps(items)
       res = items.map do |item|
-        puts "wrapping up"
         new item
       end
 

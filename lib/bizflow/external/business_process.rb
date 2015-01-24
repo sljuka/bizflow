@@ -1,15 +1,25 @@
 require 'bizflow/external/simple_wrapper'
+require 'bizflow/external/process_head'
 
 module Bizflow
 
   class BusinessProcess < SimpleWrapper
 
     def run
-      puts "process ran"
+      ph = process_heads.first
+      wph = ProcessHead.new(ph)
+      wph.jump(blocks.where(type: start_block), block_descriptors, task_descriptors)
     end
 
     def finish
       puts "process finished"
+    end
+
+    def prepare
+      block_descriptors.each do |k, v|
+        add_block(type: v[:type], name: k.to_s)
+      end
+      add_process_head({})
     end
 
     def start_block
@@ -17,6 +27,10 @@ module Bizflow
     end
 
     def block_descriptors
+      raise NotImplementedError
+    end
+
+    def task_descriptors
       raise NotImplementedError
     end
 
@@ -54,6 +68,7 @@ module Bizflow
     end
 
     def self.root
+
       dir = self.class.process_dir
       #puts "1 #{dir}"
       10.times do |i|
@@ -66,6 +81,7 @@ module Bizflow
       end
 
       dir
+
     end
 
   end

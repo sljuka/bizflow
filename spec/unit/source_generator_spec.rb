@@ -26,7 +26,7 @@ describe Bizflow::SourceGenerator do
     process_source_files = Dir.glob("#{process_path}/**/*[.json|.rb]").map {|path| File.basename(path)}
     process_descriptor_files = Dir.glob("#{process_path}/**/*[.json|.rb]").map {|path| File.basename(path)}
     expect(process_descriptor_files).to include "process-descriptor.json"
-    expect(process_source_files).to include "make_breakfast.rb"
+    expect(process_source_files).to include "make_breakfast_process.rb"
 
   end
 
@@ -44,7 +44,7 @@ describe Bizflow::SourceGenerator do
     process_source_files = Dir.glob("#{process_path}/**/*[.json|.rb]").map {|path| File.basename(path)}
     process_descriptor_files = Dir.glob("#{process_path}/**/*[.json|.rb]").map {|path| File.basename(path)}
     expect(process_descriptor_files).to include "process-descriptor.json"
-    expect(process_source_files).to include "make_breakfast.rb"    
+    expect(process_source_files).to include "make_breakfast_process.rb"    
 
   end
 

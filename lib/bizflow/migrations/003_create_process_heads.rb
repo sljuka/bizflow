@@ -2,8 +2,9 @@ Sequel.migration do
   up do
     create_table(:process_heads) do
       primary_key :id
-      Integer :process_id, :null => false
-      Integer :block_id, :null => false
+      foreign_key :process_id, :processes
+      foreign_key :block_id, :blocks
+      index [:process_id, :block_id], :unique=>true
     end
   end
 

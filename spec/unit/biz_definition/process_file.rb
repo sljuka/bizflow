@@ -20,17 +20,16 @@ process "make_breakfast" do
 
   end
 
-
   task_block "get_supplies" do
 
     description "get enaugh eggs, bacon and bread"
     task "get_bacon", roles: ["storage", "kitchen"], description: "optional description", auto_assign: true
     task "get_eggs", roles: ["storage", "kitchen"]
     task "get_bread", roles: ["storage"]
+
     next_block "make_breakfast"
 
   end
-
 
   automated_block "make_breakfast" do
 
@@ -40,7 +39,6 @@ process "make_breakfast" do
     next_blocks(success: "serve_breakfast")
     
   end
-
 
   task_block "serve_breakfast" do
 

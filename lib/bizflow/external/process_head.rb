@@ -1,31 +1,21 @@
 require 'bizflow/external/simple_wrapper'
+require 'bizflow/external/task_block'
+require 'bizflow/external/automated_block'
 
 module Bizflow
 
   class ProcessHead < SimpleWrapper
 
-    attr_accessor :block, :process
-
-    def initialize(process, block)
-      @process = process
-      @block = block
-    end
-
     # TODO what about merge
-    def execute
-      if block.type == :end
-        process.finish
-      elsif block.type == :task
-        create_tasks(block)
+    def jump(block, block_descriptors, task_descriptors)
+      elsif block.type == "task"
+        wtb = TaskBlock.new(block)
+        block.create_tasks(block_descriptors, task_descriptors)
       else
         block = block.handler.execute
         persist_header
         execute
       end
-    end
-
-    def persist_header
-      raise NotImplementedError
     end
 
   end

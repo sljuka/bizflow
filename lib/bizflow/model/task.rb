@@ -6,6 +6,8 @@ module Bizflow
 
     class Task < Sequel::Model
 
+      many_to_one :block
+
     end
 
   end

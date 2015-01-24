@@ -1,15 +1,16 @@
 Sequel.migration do
   up do
-    create_table(:blocks) do
+    create_table(:task_blueprints) do
       primary_key :id
-      foreign_key :process_id, :processes
       foreign_key :block_blueprint_id, :block_blueprints
       String :name, :null => false
-      String :type, :null => false
+      String :roles
+      String :description
+      TrueClass :auto_assign, :default => false
     end
   end
 
   down do
-    drop_table(:blocks)
+    drop_table(:task_blueprints)
   end
 end

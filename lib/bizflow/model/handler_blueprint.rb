@@ -1,0 +1,19 @@
+require 'sequel'
+
+module Bizflow
+
+  module Model
+
+    class BlockBlueprint < Sequel::Model
+
+      many_to_one :block_blueprint
+      one_to_many :handler_blueprints
+      one_to_many :task_blueprints
+      
+
+    end
+
+  end
+
+end
+
