@@ -1,89 +1,74 @@
-require 'bizflow/external/simple_wrapper'
-require 'bizflow/external/process_head'
+require_relative 'simple_wrapper'
+require_relative 'process_head'
 
 module Bizflow
+  module Business
 
-  class BusinessProcess < SimpleWrapper
+    class BusinessProcess < SimpleWrapper
 
-    def run
-      ph = process_heads.first
-      wph = ProcessHead.new(ph)
-      wph.jump(blocks.where(type: start_block), block_descriptors, task_descriptors)
-    end
-
-    def finish
-      puts "process finished"
-    end
-
-    def prepare
-      block_descriptors.each do |k, v|
-        add_block(type: v[:type], name: k.to_s)
+      def run
+        wph = Bizflow::Business::ProcessHead.wrap(process_head)
+        wph.jump
       end
-      add_process_head({})
-    end
 
-    def start_block
-      raise NotImplementedError
-    end
+      def finish
+        puts "process finished"
+      end
 
-    def block_descriptors
-      raise NotImplementedError
-    end
-
-    def task_descriptors
-      raise NotImplementedError
-    end
-
-    def process_name
-      raise NotImplementedError
-    end
-
-    private
-
-    def initialize_process(repo, user)
-      process = repo.create_process(user_id: user.id, type: process_name)
-      create_blocks(process)
-      create_process_header(process)
-    end
-
-    def create_blocks(process)
-      block_descriptors.each do |k, v|
-        blck = nil
-        if block.type == "auto"
-          blck = repo.create_block(process_id: process.id, type: "auto", name: k)
-        else
-          blck = repo.create_block(process_id: process.id, type: "task", name: k)
+      def prepare
+        block_descriptors.each do |k, v|
+          add_block(type: v[:type], name: k.to_s)
         end
-        @start_block = blck if blck.name == start_block
+        add_process_head({})
       end
-    end
 
-    def create_process_header(process)
-      head = repo.create_process_header(process_id: process.id, block_id: @start_block.id)
-      heads.push()
-    end
+      private
 
-    def self.process_dir
-      @dir
-    end
+      def initialize_process(repo, user)
+        process = repo.create_process(user_id: user.id, type: process_name)
+        create_blocks(process)
+        create_process_header(process)
+      end
 
-    def self.root
+      def create_blocks(process)
+        block_descriptors.each do |k, v|
+          blck = nil
+          if block.type == "auto"
+            blck = repo.create_block(process_id: process.id, type: "auto", name: k)
+          else
+            blck = repo.create_block(process_id: process.id, type: "task", name: k)
+          end
+          @start_block = blck if blck.name == start_block
+        end
+      end
 
-      dir = self.class.process_dir
-      #puts "1 #{dir}"
-      10.times do |i|
-        files = Dir["#{dir}/*.rb"].map { |path| File.basename(path) }
-        #puts "2 #{files}"
-        break if(files.include?(ConfigFileName))
-        dir = File.expand_path("../", dir)
+      def create_process_header(process)
+        head = repo.create_process_header(process_id: process.id, block_id: @start_block.id)
+        heads.push()
+      end
+
+      def self.process_dir
+        @dir
+      end
+
+      def self.root
+
+        dir = self.class.process_dir
         #puts "1 #{dir}"
-        raise "Unable to locate root directory" if i >= 9
-      end
+        10.times do |i|
+          files = Dir["#{dir}/*.rb"].map { |path| File.basename(path) }
+          #puts "2 #{files}"
+          break if(files.include?(ConfigFileName))
+          dir = File.expand_path("../", dir)
+          #puts "1 #{dir}"
+          raise "Unable to locate root directory" if i >= 9
+        end
 
-      dir
+        dir
+
+      end
 
     end
 
   end
-
 end

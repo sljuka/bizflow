@@ -49,7 +49,6 @@ module Bizflow
     end
 
     def db_wrappers
-      puts "wrapperssss"
       {
         processes: Bizflow::BusinessProcess,
         process_heads: Bizflow::ProcessHead,

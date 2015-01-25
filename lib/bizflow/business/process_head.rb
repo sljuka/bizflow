@@ -1,23 +1,22 @@
-require 'bizflow/external/simple_wrapper'
-require 'bizflow/external/task_block'
-require 'bizflow/external/automated_block'
+require_relative 'simple_wrapper'
+require_relative 'task_block'
 
 module Bizflow
+  module Business
+    
+    class ProcessHead < SimpleWrapper
 
-  class ProcessHead < SimpleWrapper
-
-    # TODO what about merge
-    def jump(block, block_descriptors, task_descriptors)
-      if block.type == "task"
-        wtb = TaskBlock.new(block)
-        block.create_tasks(block_descriptors, task_descriptors)
-      else
-        block = block.handler.execute
-        persist_header
-        execute
+      # TODO what about merge
+      def jump
+        if block.type == "task"
+          wb = Bizflow::Business::TaskBlock.wrap(block)
+          wb.create_tasks
+        else
+          puts "auto"
+        end
       end
+
     end
 
   end
-
 end
