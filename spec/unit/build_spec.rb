@@ -1,6 +1,6 @@
 require "spec_helper"
 
-require "bizflow/command/build_blueprint_command"
+require "bizflow/command/build_command"
 require "bizflow/command/setup_db_command"
 
 describe "build command" do
@@ -23,7 +23,7 @@ describe "build command" do
     Bizflow::Model::BlockBlueprint.where('id > 0').delete
     Bizflow::Model::ProcessBlueprint.where('id > 0').delete
 
-    Bizflow::BuildBlueprintCommand.run(config, nil)
+    Bizflow::BuildCommand.run(config, nil)
   end
 
   it "builds" do
