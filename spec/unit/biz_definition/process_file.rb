@@ -2,16 +2,14 @@
 process "make_breakfast" do
 
   description "creates breakfast"
-  namespace "breakfast"
   
   start_block "check_supplies"
-  roles ["kitchen"]
 
 
   automated_block "check_supplies" do
     
     description "checks if there are enaugh eggs, bacon and bread"
-    handler "breakfast:check_supplies", "code which checks the supplies"
+    handler "check_supplies", namespace: "breakfast", description: "code which checks the supplies"
 
     next_blocks(
       not_enaugh_supplies: "get_supplies",
@@ -34,7 +32,7 @@ process "make_breakfast" do
   automated_block "make_breakfast" do
 
     description "sets stove, fry eggs, roast bacon"
-    handler "breakfast:make_breakfast"
+    handler "make_breakfast", namespace: "breakfast"
 
     next_blocks(success: "serve_breakfast")
     

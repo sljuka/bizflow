@@ -1,43 +1,47 @@
 require "sqlite3"
 require 'sequel'
 
-Dir["#{File.dirname(__FILE__)}/../model/*.rb"].each { |file| require_relative file }
-
 module Bizflow
-  class SetupDbCommand
+  class BuildBlueprintCommand
 
     def self.run(config, args)
 
-      Sequel.extension :migration, :core_extensions
+      puts "Building processes"
 
-      # Create a database
-      puts "Creating and migrating database for processes"
-      db = Sequel.sqlite("#{Dir.pwd}/bizflow_db/bf.db")
-      Sequel::Migrator.run(db, File.expand_path("#{File.expand_path(File.dirname(__FILE__))}/../migrations"), :use_transactions=>true)
-
-      source_path = "#{Dir.pwd}/#{config[:source_path]}" || "#{Dir.pwd}/#{args[0]}"
+      source_path = "#{config[:source_path]}" || "#{Dir.pwd}/#{args[0]}"
       db = Bizflow::DomainBuilder.new(source_path)
 
       domain_repo = db.build
 
       domain_repo.processes.each do |p|
-
-        Bizflow::Model::ProcessBlueprint.create(name: p.name, description: p.description)
-
-        create_block_blueprints(p)
-
+        data_process = Bizflow::Model::ProcessBlueprint.create(name: p.name, description: p.description)
+        create_block_blueprints(data_process, p)
       end
 
-      puts "built new blueprint"
+      puts "Processes built"
 
     end
 
     private
 
-    def create_block_blueprints(process)
-      process.blocks.values.each do |b|
-        
+    def self.create_block_blueprints(data_process, process)
+      process.blocks.each do |b|
+        data_block = data_process.add_block_blueprint(type: b.type, name: b.name, description: b.description)
+        create_task_blueprints(data_block, b)
+        create_handler_blueprints(data_block, b)
       end
+    end
+
+    def self.create_task_blueprints(data_block, block)
+      return if block.type == "auto"
+      block.tasks.each do |t|
+        data_block.add_task_blueprint(name: t.name, roles: t.roles.join(" "), description: t.description, auto_assign: t.auto_assign)
+      end
+    end
+
+    def self.create_handler_blueprints(data_block, block)
+      return if block.type == "task"
+      data_block.add_handler_blueprint(path: block.handler.name, constant: block.handler.namespace, description: block.handler.description)
     end
 
   end

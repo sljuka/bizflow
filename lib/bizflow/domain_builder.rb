@@ -1,4 +1,4 @@
-require "bizflow/domain_model/domain_repo"
+require "bizflow/domain/domain_repo"
 require "bizflow/interpreters/domain_interpreter"
 
 class Bizflow::DomainBuilder
@@ -6,7 +6,7 @@ class Bizflow::DomainBuilder
   attr_accessor :repo, :source_path, :domain_interpreter
 
   def initialize(source_path)
-    @repo = Bizflow::DomainRepo.new
+    @repo = Bizflow::Domain::DomainRepo.new
     @source_path = source_path
   end
 

@@ -13,10 +13,7 @@ module Bizflow
     def initialize
       puts "connecting to #{db_path}"
       Sequel.connect("sqlite://#{db_path}")
-      require_relative "../model/process"
-      require_relative "../model/process_head"
-      require_relative "../model/block"
-      require_relative "../model/task"
+      Dir["../model/*.rb"].each { |file| require_relative file }
     end 
 
     def create(table_name, hash)

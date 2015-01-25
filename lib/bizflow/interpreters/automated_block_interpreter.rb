@@ -1,26 +1,27 @@
 
-require "bizflow/domain_model/automated_block"
-require "bizflow/domain_model/handler"
+require "bizflow/domain/automated_block"
+require "bizflow/domain/handler"
 
 class Bizflow::AutomatedBlockInterpreter
 
   attr_accessor :block
 
   def initialize(name)
-    @block = Bizflow::AutomatedBlock.new(name)
+    @block = Bizflow::Domain::AutomatedBlock.new(name)
   end
 
   def description(description)
-    @block.description = description
+    block.description = description
   end
 
-  def handler(handler_full_name, description = nil)
-    namespace, name = handler_full_name.split(":")
-    @block.handler = Bizflow::Handler.new(namespace, name, description)
+  def handler(name, options = {})
+    raise "handler for block already defined" if block.handler
+    block.handler = Bizflow::Domain::Handler.new(name, options)
   end
 
-  def next_blocks(next_blocks_hash)
-    @block.next_blocks = next_blocks_hash
+  def next_blocks(blocks_hash)
+    raise "next blocks already defined" if !block.next_blocks.empty?
+    block.next_blocks = blocks_hash
   end
 
 end

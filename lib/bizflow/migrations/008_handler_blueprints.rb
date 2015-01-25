@@ -5,6 +5,7 @@ Sequel.migration do
       foreign_key :block_blueprint_id, :block_blueprints
       String :path, :null => false
       String :constant, :null => false
+      String :description
     end
   end
 
