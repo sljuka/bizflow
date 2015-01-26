@@ -7,8 +7,8 @@ module Bizflow
     class BusinessProcess < SimpleWrapper
 
       def run
-        wph = Bizflow::Business::ProcessHead.wrap(process_head)
-        wph.jump
+        ph = Bizflow::Business::ProcessHead.wrap(process_heads.first)
+        ph.jump
       end
 
       def finish

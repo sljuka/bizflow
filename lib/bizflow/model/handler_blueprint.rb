@@ -8,7 +8,6 @@ module Bizflow
 
       many_to_one :block_blueprint
       one_to_many :handlers
-      
 
     end
 

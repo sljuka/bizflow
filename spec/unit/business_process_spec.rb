@@ -1,46 +1,49 @@
 require "spec_helper"
 
 require "bizflow/business/business_process"
-require "bizflow/business/task"
-require "bizflow/business/task_block"
-require "bizflow/business/automated_block"
-require "bizflow/business/process_head"
 
 describe Bizflow::Business::BusinessProcess, process: true do
-  
-  let(:block_raw_1) { double(primary_key: 1, name: "block1", type: "task") }
-  let(:block_raw_2) { double(primary_key: 1, name: "block2", type: "task") }
 
-  let(:block_raw_3) { double(primary_key: 1, name: "block3", type: "auto") }
-  let(:block_raw_4) { double(primary_key: 1, name: "block4", type: "auto") }
+  let(:processbp_jukebox) { double(name: "jukebox") }
+  let(:blockbp_pay) { double(name: "pay", type: "task") }
+  let(:taskbp_pay) { double(id: 1, name: "pay", role: "client", block_blueprint: blockbp_pay) }
 
-  let(:process_head_raw) { double(block: block_raw_1) }
+  # let(:block_bp1) { double(name: "block_bp1", type: "auto", process_blueprint: process_bp, handler_blueprints: [handler_bp1]) }
+  # let(:block_bp2) { double(name: "block_bp2", type: "task", process_blueprint: process_bp, task_blueprints: [task_bp1]) }
+  # let(:block_bp3) { double(name: "block_bp3", type: "auto", process_blueprint: process_bp, handler_blueprints: [handler_bp2]) }
+  # let(:block_bp4) { double(name: "block_bp4", type: "task", process_blueprint: process_bp, task_blueprints: [task_bp2]) }
 
-  let(:process_raw) {
+  # let(:handler_bp1) { double(path: "path/to/var", constant: "Some::Constant", block_blueprint: block_bp1) }
+  # let(:handler_bp2) { double(path: "path/to/var2", constant: "Some::Constant2", block_blueprint: block_bp3) }
+
+  # let(:block_2) { double(name: "block2", type: "task", block_blueprint: block_bp4) }
+
+  # let(:block_raw_3) { double(name: "block3", type: "auto", block_blueprint: block_bp1) }
+  # let(:block_raw_4) { double(name: "block4", type: "auto", block_blueprint: block_bp3) }
+
+  let(:process_jukebox) {
     double(
-      primary_key: 1, type: "process_1", creator_id: 1,
-      runner_id: nil, created_at: Time.now, runned_at: nil,
-      jumped_at: nil, process_head: process_head_raw, start_block: "block1",
-      blocks: [block_raw_1, block_raw_2, block_raw_3, block_raw_4] )
+      name: "jukebox",
+      creator_id: 1,
+      runner_id: nil,
+      created_at: Time.now,
+      runned_at: nil,
+      jumped_at: nil,
+      start_block: "block1",
+      blocks: [],
+      process_blueprint: processbp_jukebox)
   }
-  
-  let(:process) { Bizflow::Business::BusinessProcess.wrap(process_raw) }
+
+  let(:block_pay) { double(name: "pay", type: "task", block_blueprint: blockbp_pay) }
+  let(:ph) { double(block: block_pay, process: process_jukebox) }  
+
+  let(:process) { Bizflow::Business::BusinessProcess.wrap(process_jukebox) }
 
   it "can run" do
-    expect(process.respond_to? :run).to be(true)
-  end
-
-  it "runs" do
-    expect(block_raw_1).to receive(:add_task).exactly(2).times
+    expect(process_jukebox).to receive(:process_heads) { [ph] }
+    expect(blockbp_pay).to receive(:task_blueprints) { [taskbp_pay] }
+    expect(block_pay).to receive(:add_task)
     process.run
-  end
-
-  it "can reach down to underlying database object" do
-    expect(process.primary_key).to be 1
-    expect(process.type).to eq "process_1"
-    expect(process.creator_id).to be 1
-    expect(process.process_head).to eq process_head_raw
-    expect(process.blocks).to eq [block_raw_1, block_raw_2, block_raw_3, block_raw_4]
   end
 
   it "can finish" do
