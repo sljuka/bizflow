@@ -22,3 +22,4 @@ tmp
 *.db
 mkmf.log
 /vendor
+text/.~lock.Master.odt#
