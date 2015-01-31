@@ -26,7 +26,7 @@ describe "build command" do
     Bizflow::BuildCommand.run(config, nil)
   end
 
-  it "builds", build: true do
+  it "builds" do
 
     expect(Bizflow::Model::ProcessBlueprint.count).to eq(1)
     expect(Bizflow::Model::BlockBlueprint.count).to eq(4)
