@@ -1,6 +1,7 @@
 require "spec_helper"
 
 require "bizflow/business/business_process"
+require_relative "fakes/fake_header"
 
 describe Bizflow::Business::BusinessProcess, process: true do
 
@@ -23,21 +24,19 @@ describe Bizflow::Business::BusinessProcess, process: true do
   }
 
   let(:block_pay) { double(name: "pay", type: "task", block_blueprint: block_bp_pay) }
-  let(:ph) { double(block: block_pay, process: process_jukebox) }  
+  let(:process_head) { Fakes::FakeHeader.new(block_pay, process) }  
   let(:process) { Bizflow::Business::BusinessProcess.wrap(process_jukebox) }
 
   before :each do
 
-    allow(process_jukebox).to receive(:process_heads) { [ph] }
+    allow(process_jukebox).to receive(:process_heads) { [process_head] }
     allow(block_bp_pay).to receive(:task_blueprints) { [task_bp_pay] }
 
   end
 
   it "can run" do
-
     expect(block_pay).to receive(:add_task)
     process.run
-  
   end
 
   it "can finish" do
