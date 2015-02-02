@@ -4,7 +4,7 @@ require_relative 'process_head'
 module Bizflow
   module Business
 
-    class BusinessProcess < SimpleWrapper
+    class Process < SimpleWrapper
 
       def run
         ph = Bizflow::Business::ProcessHead.wrap(process_heads.first)
@@ -16,8 +16,8 @@ module Bizflow
       end
 
       def prepare
-        block_descriptors.each do |k, v|
-          add_block(type: v[:type], name: k.to_s)
+        process_blueprint.block_blueprints.each do |b|
+          add_block(type: b.type, name: b.name)
         end
         add_process_head({})
       end
