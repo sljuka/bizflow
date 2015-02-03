@@ -5,10 +5,14 @@ require "bizflow/fakes/head"
 
 describe Bizflow::Business::Process, process: true do
 
-  let(:processbp_jukebox) { double(name: "jukebox") }
+  let(:action_bp_find) { double(name: "find", type: "task") }
+  let(:task_bp_find) { double(name: "find", role: "staff", action_blueprint: action_bp_find) }
 
-  let(:action_bp_pay) { double(name: "pay", type: "task") }
-  let(:task_bp_pay) { double(id: 1, type: "auto", name: "pay", role: "client", action_blueprint: action_bp_pay) }
+  let(:action_bp_check) { double(name: "check", type: "auto") }
+  let(:handler_bp_check) { double(name: "check", namespace: "library", action_blueprint: action_bp_check) }  
+
+  let(:action_find) { double(name: "find", type: "task", action_blueprint: action_bp_find, process: process_jukebox) }
+  let(:action_check) { double(name: "check", type: "auto", action_blueprint: action_bp_check, process: process_jukebox) }
 
   let(:process_jukebox) {
     double(
@@ -17,36 +21,30 @@ describe Bizflow::Business::Process, process: true do
       runner_id: nil,
       created_at: Time.now,
       runned_at: nil,
-      jumped_at: nil,
-      start_action: "action1",
-      actions: [],
-      process_blueprint: processbp_jukebox)
+      jumped_at: nil
+    )
   }
 
-  let(:action_pay) { double(name: "pay", type: "task", action_blueprint: action_bp_pay) }
-  let(:process_head) { Bizflow::Fakes::Head.new(process, action_pay) }  
+  let(:head) { Bizflow::Fakes::Head.new(process, action_find) }
   let(:process) { Bizflow::Business::Process.wrap(process_jukebox) }
+  let(:task) { Bizflow::Fakes::Task.new(action_find, "find") }
+
 
   before :each do
 
-    allow(processbp_jukebox).to receive(:action_blueprints) { [action_bp_pay, task_bp_pay] }
-
-    allow(process_jukebox).to receive(:process_heads) { [process_head] }
-    allow(process_jukebox).to receive(:add_action) { [] }
-    allow(process_jukebox).to receive(:add_process_head) { [process_head] }
-    
-    allow(action_bp_pay).to receive(:task_blueprints) { [task_bp_pay] }
-    allow(action_pay).to receive(:add_task)
+    allow(process_jukebox).to receive(:heads) { [head] }
+    allow(process_jukebox).to receive(:actions) { [action_find, action_check] }
+    allow(process_jukebox).to receive(:start_action) { action_find }
 
   end
 
   it "can run" do
     process.run
-    expect(action_pay).to have_received(:add_task)
-  end
+    expect(action_find).to have_received(:add_task)
 
-  it "can finish" do
-    expect(process.respond_to? :finish).to be(true)  
+    task.run
+
+
   end
 
 end
