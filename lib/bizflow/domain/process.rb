@@ -3,16 +3,16 @@ module Bizflow
     
     class Process
 
-      attr_accessor :name, :description, :start_block, :blocks
+      attr_accessor :name, :description, :start_action, :actions
 
       def initialize(name)
         @name = name
-        @blocks = []
+        @actions = []
         @roles = []
       end
 
-      def add_block(block)
-        blocks << block
+      def add_action(action)
+        actions << action
       end
 
     end

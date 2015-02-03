@@ -1,15 +1,15 @@
-require_relative "block"
+require_relative "action"
 
 module Bizflow
   module Domain
     
-    class AutomatedBlock < Block
+    class AutomatedAction < Action
 
-      attr_accessor :next_blocks, :handler
+      attr_accessor :next_actions, :handler
 
       def initialize(name)
         super("auto", name)
-        @next_blocks = {}
+        @next_actions = {}
         @handler = nil
       end
   

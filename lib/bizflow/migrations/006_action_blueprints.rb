@@ -1,6 +1,6 @@
 Sequel.migration do
   up do
-    create_table(:block_blueprints) do
+    create_table(:action_blueprints) do
       primary_key :id
       foreign_key :process_blueprint_id, :process_blueprints
       String :name, :null => false
@@ -10,6 +10,6 @@ Sequel.migration do
   end
 
   down do
-    drop_table(:blocks)
+    drop_table(:actions)
   end
 end

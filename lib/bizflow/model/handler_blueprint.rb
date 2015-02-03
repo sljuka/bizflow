@@ -6,7 +6,7 @@ module Bizflow
 
     class HandlerBlueprint < Sequel::Model
 
-      many_to_one :block_blueprint
+      many_to_one :action_blueprint
       one_to_many :handlers
 
     end

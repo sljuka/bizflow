@@ -1,9 +1,9 @@
 require "sqlite3"
 require 'sequel'
-require 'bizflow/external/automated_block'
+require 'bizflow/external/automated_action'
 require 'bizflow/external/process_head'
 require 'bizflow/external/task'
-require 'bizflow/external/task_block'
+require 'bizflow/external/task_action'
 require 'bizflow/external/business_process'
 
 module Bizflow
@@ -43,7 +43,7 @@ module Bizflow
       {
         processes: Bizflow::Model::Process,
         process_heads: Bizflow::Model::ProcessHead,
-        blocks: Bizflow::Model::Block,
+        actions: Bizflow::Model::Action,
         tasks: Bizflow::Model::Task
       }
     end
@@ -52,9 +52,9 @@ module Bizflow
       {
         processes: Bizflow::BusinessProcess,
         process_heads: Bizflow::ProcessHead,
-        blocks: {
-          auto: Bizflow::AutomatedBlock,
-          task: Bizflow::TaskBlock
+        actions: {
+          auto: Bizflow::AutomatedAction,
+          task: Bizflow::TaskAction
         },
         tasks: Bizflow::Task
       }
@@ -66,7 +66,7 @@ module Bizflow
 
     def wrap(table_name, models)
       wrapper = nil
-      if table_name == :blocks
+      if table_name == :actions
         wrapper = db_wrappers[table_name][model.type]
       else
         wrapper = db_wrappers[table_name]

@@ -4,26 +4,26 @@ class <%= classy_name(name) %>Process < Bizflow::BusinessProcess
 
   @dir = File.expand_path(__dir__)
 
-  StartBlock = "<%= start_block %>"
+  StartAction = "<%= start_action %>"
 
-  Blocks = {
-  <%- automated_blocks.each do |_, blck| -%>
+  Actions = {
+  <%- automated_actions.each do |_, blck| -%>
     <%= blck.name %>: {
       type: "auto",
       description: "<%= blck.description %>",
       handler: Handlers::<%= classy_name(blck.handler.namespace) %>::<%= classy_name(blck.handler.name) %>,
-      next_blocks: {
-      <%- blck.next_blocks.each do |k, v| -%>
+      next_actions: {
+      <%- blck.next_actions.each do |k, v| -%>
         <%= k %>: "<%= v %>",
       <%- end -%>
       }
     },
   <%- end -%>
-  <%- task_blocks.each do |_, blck| -%>
+  <%- task_actions.each do |_, blck| -%>
     <%= blck.name %>: {
       type: "task",
       description: "<%= blck.description %>",
-      next_block: "<%= blck.next_block %>",
+      next_action: "<%= blck.next_action %>",
       tasks: [<%= blck.tasks.map {|t| ":#{t.name}"}.join(", ") %>]
     },
   <%- end -%>
@@ -38,12 +38,12 @@ class <%= classy_name(name) %>Process < Bizflow::BusinessProcess
   <%- end -%>
   }
 
-  def start_block
-    StartBlock
+  def start_action
+    StartAction
   end
 
-  def blocks
-    Blocks
+  def actions
+    Actions
   end
 
   def tasks

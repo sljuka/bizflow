@@ -7,7 +7,7 @@ module Bizflow
     class TaskBlueprint < Sequel::Model
 
       one_to_many :tasks
-      many_to_one :block_blueprint
+      many_to_one :action_blueprint
 
     end
 

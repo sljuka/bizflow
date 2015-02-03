@@ -1,5 +1,5 @@
 require 'bizflow/fakes/process'
-require 'bizflow/fakes/block'
+require 'bizflow/fakes/action'
 require 'bizflow/fakes/head'
 
 module Bizflow
@@ -17,14 +17,14 @@ module Bizflow
 
       p = Bizflow::Fakes::Process.new(pbp.name, pbp.description)
       
-      pbp.block_blueprints.each do |bp|
-        b = Bizflow::Fakes::Block.new(p, bp, bp.name, bp.type)
-        p.blocks << b
-        p.start_block = b if pbp.start_block == bp.name
+      pbp.action_blueprints.each do |bp|
+        b = Bizflow::Fakes::Action.new(p, bp, bp.name, bp.type)
+        p.actions << b
+        p.start_action = b if pbp.start_action == bp.name
       end
 
       h = Bizflow::Fakes::Head.new(p)
-      h.block = p.start_block
+      h.action = p.start_action
 
       p
     end

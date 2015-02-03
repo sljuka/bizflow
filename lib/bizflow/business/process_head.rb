@@ -1,5 +1,5 @@
 require_relative 'simple_wrapper'
-require_relative 'task_block'
+require_relative 'task_action'
 
 module Bizflow
   module Business
@@ -8,8 +8,8 @@ module Bizflow
 
       # TODO what about merge
       def jump
-        if block.type == "task"
-          wb = Bizflow::Business::TaskBlock.wrap(block)
+        if action.type == "task"
+          wb = Bizflow::Business::TaskAction.wrap(action)
           wb.create_tasks
         else
           puts "auto"

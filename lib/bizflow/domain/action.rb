@@ -1,7 +1,7 @@
 module Bizflow
   module Domain
     
-    class Block
+    class Action
 
       attr_accessor :name, :description, :type
 

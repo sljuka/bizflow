@@ -13,14 +13,14 @@ class MakeBreakfastProcess < Bizflow::BusinessProcess
 
   @dir = File.expand_path(__dir__)
 
-  StartBlock = "check_supplies"
+  StartAction = "check_supplies"
 
-  Blocks = {
+  Actions = {
     check_supplies: {
       type: "auto",
       description: "checks if there are enaugh eggs, bacon and bread",
       handler: Handlers::Breakfast::CheckSupplies,
-      next_blocks: {
+      next_actions: {
         not_enaugh_supplies: "get_supplies",
         enaugh_supplies: "make_breakfast",
       }
@@ -29,20 +29,20 @@ class MakeBreakfastProcess < Bizflow::BusinessProcess
       type: "auto",
       description: "sets stove, fry eggs, roast bacon",
       handler: Handlers::Breakfast::MakeBreakfast,
-      next_blocks: {
+      next_actions: {
         success: "serve_breakfast",
       }
     },
     get_supplies: {
       type: "task",
       description: "get enaugh eggs, bacon and bread",
-      next_block: "make_breakfast",
+      next_action: "make_breakfast",
       tasks: [:get_bacon, :get_eggs, :get_bread]
     },
     serve_breakfast: {
       type: "task",
       description: "prepare table, slice bread",
-      next_block: "process:finish",
+      next_action: "process:finish",
       tasks: [:prepare_table, :slice_bread]
     },
   }
@@ -70,12 +70,12 @@ class MakeBreakfastProcess < Bizflow::BusinessProcess
     },
   }
 
-  def start_block
-    StartBlock
+  def start_action
+    StartAction
   end
 
-  def block_descriptors
-    Blocks
+  def action_descriptors
+    Actions
   end
 
   def task_descriptors

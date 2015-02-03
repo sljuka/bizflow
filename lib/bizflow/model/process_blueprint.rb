@@ -7,7 +7,7 @@ module Bizflow
     class ProcessBlueprint < Sequel::Model
 
       one_to_many :processes
-      one_to_many :block_blueprints
+      one_to_many :action_blueprints
 
     end
 

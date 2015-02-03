@@ -6,7 +6,7 @@ module Bizflow
 
     class Handler < Sequel::Model
 
-      many_to_one :block
+      many_to_one :action
 
     end
 

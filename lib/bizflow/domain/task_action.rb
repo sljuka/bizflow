@@ -1,16 +1,16 @@
-require_relative "block"
+require_relative "action"
 
 module Bizflow
   module Domain
 
-    class TaskBlock < Block
+    class TaskAction < Action
 
-      attr_accessor :tasks, :next_block
+      attr_accessor :tasks, :next_action
 
       def initialize(name)
         super("task", name)
         @tasks = []
-        @next_block 
+        @next_action 
       end
 
       def add_task(task)

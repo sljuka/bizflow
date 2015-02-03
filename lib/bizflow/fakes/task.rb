@@ -2,10 +2,10 @@ module Bizflow
   module Fakes
     class Task
 
-      attr_accessor :name, :description, :block
+      attr_accessor :name, :description, :action
 
-      def initialize(block, name, description = nil)
-        @block = block
+      def initialize(action, name, description = nil)
+        @action = action
         @name = name
         @description = description
       end

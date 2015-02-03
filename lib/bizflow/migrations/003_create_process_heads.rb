@@ -1,10 +1,10 @@
 Sequel.migration do
   up do
-    create_table(:process_heads) do
+    create_table(:heads) do
       primary_key :id
       foreign_key :process_id, :processes
-      foreign_key :block_id, :blocks
-      index [:process_id, :block_id], :unique=>true
+      foreign_key :action_id, :actions
+      index [:process_id, :action_id], :unique=>true
     end
   end
 

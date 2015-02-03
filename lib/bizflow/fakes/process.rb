@@ -2,12 +2,12 @@ module Bizflow
   module Fakes
     class Process
 
-      attr_accessor :name, :description, :blocks, :header, :start_block
+      attr_accessor :name, :description, :actions, :header, :start_action
 
       def initialize(name, description = nil)
         @name = name
         @description = description
-        @blocks = []
+        @actions = []
       end
 
     end

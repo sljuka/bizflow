@@ -2,17 +2,17 @@
   "name" : "<%= name %>",
   "namespace" : "<%= namespace %>",
   "description" : "<%= description %>",
-  "start_block" : "<%= start_block %>",
+  "start_action" : "<%= start_action %>",
   "roles" : [<%= process_roles_list %>],
 
-  "automated_blocks" : [
-  <%- automated_blocks.each do |_, blck| -%>
+  "automated_actions" : [
+  <%- automated_actions.each do |_, blck| -%>
     {
       "name" : "<%= blck.name %>",
       "description" : "<%= blck.description %>",
       "handler" : "<%= blck.handler.full_name %>",
-      "next_blocks" : {
-      <%- blck.next_blocks.each do |k, v| -%>
+      "next_actions" : {
+      <%- blck.next_actions.each do |k, v| -%>
         "<%= k %>" : "<%= v %>",
       <%- end -%>
       }
@@ -20,12 +20,12 @@
   <%- end -%>
   ],
 
-  "task_blocks" : [
-  <%- task_blocks.each do |_, blck| -%>
+  "task_actions" : [
+  <%- task_actions.each do |_, blck| -%>
     {
       "name" : "<%= blck.name %>",
       "description" : "<%= blck.description %>",
-      "next_block" : "<%= blck.next_block %>",
+      "next_action" : "<%= blck.next_action %>",
       "tasks" : [
       <%- blck.tasks.each do |task| -%>
         {

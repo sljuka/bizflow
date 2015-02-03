@@ -9,9 +9,9 @@ class Bizflow::DomainInterpreter
     @repo = repo
   end
 
-  def process(name, &block)
+  def process(name, &action)
     process_interpreter = Bizflow::ProcessInterpreter.new(name)
-    process_interpreter.instance_eval(&block)
+    process_interpreter.instance_eval(&action)
     repo.add_process(process_interpreter.process)
   end
 

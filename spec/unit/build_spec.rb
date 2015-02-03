@@ -20,7 +20,7 @@ describe "build command" do
 
     Bizflow::Model::TaskBlueprint.where('id > 0').delete
     Bizflow::Model::HandlerBlueprint.where('id > 0').delete
-    Bizflow::Model::BlockBlueprint.where('id > 0').delete
+    Bizflow::Model::ActionBlueprint.where('id > 0').delete
     Bizflow::Model::ProcessBlueprint.where('id > 0').delete
 
     Bizflow::BuildCommand.run(config, nil)
@@ -29,7 +29,7 @@ describe "build command" do
   it "builds" do
 
     expect(Bizflow::Model::ProcessBlueprint.count).to eq(1)
-    expect(Bizflow::Model::BlockBlueprint.count).to eq(4)
+    expect(Bizflow::Model::ActionBlueprint.count).to eq(4)
     expect(Bizflow::Model::TaskBlueprint.count).to eq(5)
 
   end
