@@ -4,7 +4,7 @@ require_relative 'task_action'
 module Bizflow
   module Business
     
-    class ProcessHead < SimpleWrapper
+    class Head < SimpleWrapper
 
       # TODO what about merge
       def jump

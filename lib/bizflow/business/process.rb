@@ -1,5 +1,5 @@
 require_relative 'simple_wrapper'
-require_relative 'process_head'
+require_relative 'head'
 
 module Bizflow
   module Business
@@ -7,7 +7,7 @@ module Bizflow
     class Process < SimpleWrapper
 
       def run
-        ph = Bizflow::Business::ProcessHead.wrap(heads.first)
+        ph = Bizflow::Business::Head.wrap(heads.first)
         ph.jump
       end
 

@@ -5,13 +5,13 @@ require "bizflow/fakes/head"
 
 describe Bizflow::Business::Process, process: true do
 
-  let(:action_bp_find) { double(name: "find", type: "task") }
-  let(:task_bp_find) { double(name: "find", role: "staff", action_blueprint: action_bp_find) }
+  let(:task_bp_find) { double(id: 1, name: "find", role: "staff") }
+  let(:action_bp_find) { double(name: "find", type: "task", task_blueprints: [task_bp_find]) }
 
   let(:action_bp_check) { double(name: "check", type: "auto") }
   let(:handler_bp_check) { double(name: "check", namespace: "library", action_blueprint: action_bp_check) }  
 
-  let(:action_find) { double(name: "find", type: "task", action_blueprint: action_bp_find, process: process_jukebox) }
+  #let(:action_find) { double(name: "find", type: "task", action_blueprint: action_bp_find, process: process_jukebox) }
   let(:action_check) { double(name: "check", type: "auto", action_blueprint: action_bp_check, process: process_jukebox) }
 
   let(:process_jukebox) {
@@ -25,10 +25,10 @@ describe Bizflow::Business::Process, process: true do
     )
   }
 
+  let(:action_find) { Bizflow::Fakes::Action.new(process_jukebox, action_bp_find, "find", "task") }
   let(:head) { Bizflow::Fakes::Head.new(process, action_find) }
   let(:process) { Bizflow::Business::Process.wrap(process_jukebox) }
   let(:task) { Bizflow::Fakes::Task.new(action_find, "find") }
-
 
   before :each do
 
@@ -39,12 +39,8 @@ describe Bizflow::Business::Process, process: true do
   end
 
   it "can run" do
+    expect(action_find).to receive(:add_task).and_call_original
     process.run
-    expect(action_find).to have_received(:add_task)
-
-    task.run
-
-
   end
 
 end
