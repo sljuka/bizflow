@@ -50,7 +50,7 @@ module Bizflow
 
     def self.create_handler_blueprints(data_action, action)
       return if action.type == "task"
-      data_action.add_handler_blueprint(path: action.handler.name, constant: action.handler.namespace, description: action.handler.description)
+      data_action.add_handler_blueprint(name: action.handler.name, namespace: action.handler.namespace, description: action.handler.description)
     end
 
   end

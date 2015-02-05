@@ -2,39 +2,32 @@ require "spec_helper"
 
 require "bizflow/business/process"
 require "bizflow/fakes/head"
+require "bizflow/fakes/action"
+require "bizflow/fakes/action_blueprint"
+require "bizflow/fakes/handler"
+require "bizflow/fakes/handler_blueprint"
 
 describe Bizflow::Business::Process, process: true do
 
-  let(:task_bp_find) { double(id: 1, name: "find", role: "staff") }
-  let(:action_bp_find) { double(name: "find", type: "task", task_blueprints: [task_bp_find]) }
-
-  let(:action_bp_check) { double(name: "check", type: "auto") }
-  let(:handler_bp_check) { double(name: "check", namespace: "library", action_blueprint: action_bp_check) }  
-
-  #let(:action_find) { double(name: "find", type: "task", action_blueprint: action_bp_find, process: process_jukebox) }
-  let(:action_check) { double(name: "check", type: "auto", action_blueprint: action_bp_check, process: process_jukebox) }
-
-  let(:process_jukebox) {
-    double(
-      name: "jukebox",
-      creator_id: 1,
-      runner_id: nil,
-      created_at: Time.now,
-      runned_at: nil,
-      jumped_at: nil
-    )
-  }
-
-  let(:action_find) { Bizflow::Fakes::Action.new(process_jukebox, action_bp_find, "find", "task") }
-  let(:head) { Bizflow::Fakes::Head.new(process, action_find) }
-  let(:process) { Bizflow::Business::Process.wrap(process_jukebox) }
-  let(:task) { Bizflow::Fakes::Task.new(action_find, "find") }
+  let(:action_bp_find)    { Bizflow::Fakes::ActionBlueprint.new(nil, "find", "task", nil) }
+  let(:task_bp_find)      { Bizflow::Fakes::TaskBlueprint.new(action_bp_find, "find", "staff") }
+  let(:action_bp_check)   { Bizflow::Fakes::ActionBlueprint.new(nil, "check", "auto", nil) }
+  let(:handler_bp_check)  { Bizflow::Fakes::HandlerBlueprint.new(action_bp_check, "check", "library") }
+  let(:action_check)      { Bizflow::Fakes::Action.new(process_jukebox, action_bp_check, "check", "auto") }
+  let(:action_find)       { Bizflow::Fakes::Action.new(process_jukebox, action_bp_find, "find", "task") }
+  let(:head)              { Bizflow::Fakes::Head.new(process, action_find) }
+  let(:task)              { Bizflow::Fakes::Task.new(action_find, "find") }
+  
+  let(:process_jukebox)   { Bizflow::Fakes::Process.new("jukebox", nil) }
+  let(:process)           { Bizflow::Business::Process.wrap(process_jukebox) }
 
   before :each do
 
     allow(process_jukebox).to receive(:heads) { [head] }
     allow(process_jukebox).to receive(:actions) { [action_find, action_check] }
     allow(process_jukebox).to receive(:start_action) { action_find }
+    allow(action_bp_find).to receive(:task_blueprints) { [task_bp_find] }
+    allow(action_bp_check).to receive(:handler_blueprints) { [handler_bp_check] } 
 
   end
 
