@@ -2,15 +2,15 @@ require 'sequel'
 
 module Bizflow
 
-  module Model
+  module DataModel
 
-    class Head < Sequel::Model
+    class Handler
 
       many_to_one :action
-      many_to_one :process
 
     end
 
   end
 
 end
+

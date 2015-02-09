@@ -2,15 +2,16 @@ require 'sequel'
 
 module Bizflow
 
-  module Model
+  module DataModel
 
-    class Head < Sequel::Model
+    class Task
 
       many_to_one :action
-      many_to_one :process
+      many_to_one :task_blueprint
 
     end
 
   end
 
 end
+

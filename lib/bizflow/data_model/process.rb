@@ -2,9 +2,9 @@ require 'sequel'
 
 module Bizflow
 
-  module Model
+  module DataModel
 
-    class Process < Sequel::Model
+    class Process
 
       many_to_one :process_blueprint
       one_to_many :actions

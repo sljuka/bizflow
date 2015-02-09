@@ -2,9 +2,9 @@ require 'sequel'
 
 module Bizflow
 
-  module Model
+  module DataModel
 
-    class Head < Sequel::Model
+    class Head
 
       many_to_one :action
       many_to_one :process
