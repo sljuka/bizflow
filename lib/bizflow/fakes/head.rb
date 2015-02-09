@@ -6,7 +6,7 @@ module Bizflow
 
       def initialize(process, action = nil)
         @process = process
-        @action = action
+        @actions = [action]
       end
 
     end

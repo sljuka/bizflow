@@ -2,12 +2,16 @@ module Bizflow
   module Fakes
     class Handler
 
-      attr_accessor :constant, :path, :block
+      attr_accessor :constant, :path, :block, :finished
 
-      def initialize(block, constant, path)
-        @block = block
-        @constant = constant
-        @path = path
+      def initialize(action, name, namespace)
+        @action = action
+        @name = name
+        @namespace = namespace
+      end
+
+      def handle
+
       end
 
     end

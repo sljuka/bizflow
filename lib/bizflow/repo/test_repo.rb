@@ -24,7 +24,6 @@ module Bizflow
       end
 
       h = Bizflow::Fakes::Head.new(p)
-      h.action = p.start_action
 
       p
     end

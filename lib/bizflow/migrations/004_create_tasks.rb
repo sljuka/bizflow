@@ -4,6 +4,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :action_id, :actions
       foreign_key :task_blueprint_id, :task_blueprints
+      Integer :assignee_id
       String :name
     end
   end
