@@ -1,4 +1,5 @@
 require 'sequel'
+require_relative 'action'
 
 module Bizflow
 

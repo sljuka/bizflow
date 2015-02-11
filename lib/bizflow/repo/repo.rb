@@ -1,5 +1,6 @@
 require "sqlite3"
 require 'sequel'
+require 'bizflow/business/process'
 
 module Bizflow
 
@@ -24,7 +25,11 @@ module Bizflow
 
       h = Bizflow::Model::Head.create(process: p)
 
-      p
+      Bizflow::Business::Process.new p
+    end
+
+    def process_blueprints
+      Bizflow::Model::ProcessBlueprint.all
     end
 
     def db_path

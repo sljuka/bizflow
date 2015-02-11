@@ -3,7 +3,6 @@ module Bizflow
     
     class Handler < SimpleWrapper
 
-      # TODO what about merge
       def handle
         raise NotImplementedError
       end
