@@ -16,11 +16,17 @@ module Bizflow
       pbp = Bizflow::Model::ProcessBlueprint[blueprint_id]
       raise "no process with id '#{blueprint_id}'" unless pbp
 
-      p = Bizflow::Model::Process.create(name: pbp.name, description: pbp.description, creator_id: creator_id)
+      p = Bizflow::Model::Process.create(
+        name: pbp.name,
+        description: pbp.description,
+        creator_id: creator_id,
+        process_blueprint: pbp
+      )
       
       pbp.action_blueprints.each do |bp|
         a = Bizflow::Model::Action.create(name: bp.name, type: bp.type, process: p, action_blueprint: bp)
-        p.update(start_action: a) if pbp.start_action == a.name && p.start_action.nil?
+        puts (pbp.start_action == a.name) ? "true" : "false"
+        p.update(start_action_id: a.id) if pbp.start_action == a.name
       end
 
       h = Bizflow::Model::Head.create(process: p)
@@ -34,6 +40,23 @@ module Bizflow
 
     def db_path
       raise NotImplementedError
+    end
+
+    def processes
+      Bizflow::Model::Process.all
+    end
+
+    def find_process(id)
+      p = Bizflow::Model::Process[id]
+      Bizflow::Business::Process.new px
+    end
+
+    def tasks(user_id = nil)
+      if user_id
+        Bizflow::Model::Task.where(assignee_id: user_id)
+      else
+        Bizflow::Model::Task.all
+      end
     end
 
   end
