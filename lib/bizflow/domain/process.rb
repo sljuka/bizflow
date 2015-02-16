@@ -1,3 +1,5 @@
+#sematic model
+
 module Bizflow
   module Domain
     
