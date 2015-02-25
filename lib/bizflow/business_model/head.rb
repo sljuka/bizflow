@@ -11,11 +11,11 @@ module Bizflow
       # TODO what about merge
       def jump
         if action.type == "task"
-          ta = Bizflow::BusinessModel::TaskAction.wrap(action)
+          ta = TaskAction.wrap(action)
           ta.create_tasks
           nil
         else
-          aa = Bizflow::BusinessModel::TaskAction.wrap(action)
+          aa = AutomatedAction.wrap(action)
           handler = aa.handlers.first
           bus_handler = Handler.new(handler)
           res = bus_handler.handle
