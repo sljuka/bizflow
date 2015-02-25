@@ -27,7 +27,7 @@ describe Bizflow::Business::Process, process: true do
 
     allow(process_jukebox).to receive(:heads) { [head] }
     allow(process_jukebox).to receive(:actions) { [action_find, action_check] }
-    allow(process_jukebox).to receive(:start_action) { action_check }
+    allow(process_jukebox).to receive(:start) { action_check }
     allow(action_bp_find).to receive(:task_blueprints) { [task_bp_find] }
     allow(action_bp_check).to receive(:handler_blueprints) { [handler_bp_check] }
     allow(action_check).to receive(:handlers) { [handler] }
@@ -39,7 +39,7 @@ describe Bizflow::Business::Process, process: true do
   it "can run" do
     expect(handler).to receive(:finished=).and_call_original
     expect(action_find).to receive(:add_task).and_call_original
-    process.run
+    process.run(1)
   end
 
 end

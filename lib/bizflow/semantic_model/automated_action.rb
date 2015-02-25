@@ -1,7 +1,7 @@
 require_relative "action"
 
 module Bizflow
-  module Domain
+  module SemanticModel
     
     class AutomatedAction < Action
 

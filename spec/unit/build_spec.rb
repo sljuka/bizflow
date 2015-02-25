@@ -9,7 +9,7 @@ describe "build command" do
     {
       base_path: File.expand_path("#{File.dirname(__FILE__)}"),
       source_path: File.expand_path("#{File.dirname(__FILE__)}/biz_definition"),
-      db_path: File.expand_path("#{File.dirname(__FILE__)}/test_db/bf_test.db")
+      db_path: "spec/unit/test_db/bf_test.db"
     }
   }
 

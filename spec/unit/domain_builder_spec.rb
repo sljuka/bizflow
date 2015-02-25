@@ -1,11 +1,11 @@
 require "spec_helper"
 
-require "bizflow/domain/domain_repo"
+require "bizflow/semantic_model/domain_repo"
 require "bizflow/domain_builder"
 
 describe Bizflow::DomainBuilder do
 
-  let(:repo)    { Bizflow::Domain::DomainRepo.new }
+  let(:repo)    { Bizflow::SemanticModel::DomainRepo.new }
   let(:builder) { Bizflow::DomainBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/biz_definition")) }
 
   before :each do
@@ -19,7 +19,7 @@ describe Bizflow::DomainBuilder do
     
     expect(repo.processes[0].name).to eq("make_breakfast")
     expect(repo.processes[0].description).to eq("creates breakfast")
-    expect(repo.processes[0].start_action).to eq("check_supplies")
+    expect(repo.processes[0].start).to eq("check_supplies")
 
     expect(repo.processes[0].actions.count).to eq(4)
 

@@ -1,13 +1,13 @@
 
-require "bizflow/domain/automated_action"
-require "bizflow/domain/handler"
+require "bizflow/semantic_model/automated_action"
+require "bizflow/semantic_model/handler"
 
 class Bizflow::AutomatedActionInterpreter
 
   attr_accessor :action
 
   def initialize(name)
-    @action = Bizflow::Domain::AutomatedAction.new(name)
+    @action = Bizflow::SemanticModel::AutomatedAction.new(name)
   end
 
   def description(description)
@@ -16,7 +16,7 @@ class Bizflow::AutomatedActionInterpreter
 
   def handler(name, options = {})
     raise "handler for action already defined" if action.handler
-    action.handler = Bizflow::Domain::Handler.new(name, options)
+    action.handler = Bizflow::SemanticModel::Handler.new(name, options)
   end
 
   def next_actions(actions_hash)

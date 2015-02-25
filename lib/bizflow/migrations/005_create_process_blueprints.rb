@@ -4,7 +4,7 @@ Sequel.migration do
       primary_key :id
       String :name
       String :description, :text => true
-      String :start_action
+      String :start
     end
   end
 

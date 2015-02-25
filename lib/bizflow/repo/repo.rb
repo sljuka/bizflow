@@ -25,8 +25,8 @@ module Bizflow
       
       pbp.action_blueprints.each do |bp|
         a = Bizflow::Model::Action.create(name: bp.name, type: bp.type, process: p, action_blueprint: bp)
-        puts (pbp.start_action == a.name) ? "true" : "false"
-        p.update(start_action_id: a.id) if pbp.start_action == a.name
+        puts (pbp.start == a.name) ? "true" : "false"
+        p.update(start_id: a.id) if pbp.start == a.name
       end
 
       h = Bizflow::Model::Head.create(process: p)
@@ -36,10 +36,6 @@ module Bizflow
 
     def process_blueprints
       Bizflow::Model::ProcessBlueprint.all
-    end
-
-    def db_path
-      raise NotImplementedError
     end
 
     def processes

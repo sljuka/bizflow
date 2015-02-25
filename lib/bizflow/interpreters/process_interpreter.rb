@@ -1,13 +1,13 @@
 require "bizflow/interpreters/task_action_interpreter"
 require "bizflow/interpreters/automated_action_interpreter"
-require "bizflow/domain/process"
+require "bizflow/semantic_model/process"
 
 class Bizflow::ProcessInterpreter
 
   attr_accessor :process, :task_action_interpreter, :automated_action_interpreter
 
   def initialize(process_name)
-    @process = Bizflow::Domain::Process.new(process_name)
+    @process = Bizflow::SemanticModel::Process.new(process_name)
   end
 
   def automated_action(name, &action)
@@ -26,8 +26,8 @@ class Bizflow::ProcessInterpreter
     process.description = description
   end
 
-  def start_action(action_name)
-    process.start_action = action_name
+  def start(action_name)
+    process.start = action_name
   end
 
 end

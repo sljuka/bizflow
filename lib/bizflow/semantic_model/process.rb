@@ -1,11 +1,9 @@
-#sematic model
-
 module Bizflow
-  module Domain
+  module SemanticModel
     
     class Process
 
-      attr_accessor :name, :description, :start_action, :actions
+      attr_accessor :name, :description, :start, :actions
 
       def initialize(name)
         @name = name

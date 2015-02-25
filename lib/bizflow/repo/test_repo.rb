@@ -20,7 +20,7 @@ module Bizflow
       pbp.action_blueprints.each do |bp|
         b = Bizflow::Fakes::Action.new(p, bp, bp.name, bp.type)
         p.actions << b
-        p.start_action = b if pbp.start_action == bp.name
+        p.start = b if pbp.start == bp.name
       end
 
       h = Bizflow::Fakes::Head.new(p)

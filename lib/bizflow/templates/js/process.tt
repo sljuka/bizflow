@@ -2,7 +2,7 @@
   "name" : "<%= name %>",
   "namespace" : "<%= namespace %>",
   "description" : "<%= description %>",
-  "start_action" : "<%= start_action %>",
+  "start" : "<%= start %>",
   "roles" : [<%= process_roles_list %>],
 
   "automated_actions" : [

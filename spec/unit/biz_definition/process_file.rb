@@ -3,7 +3,7 @@ process "make_breakfast" do
 
   description "creates breakfast"
   
-  start_action "check_supplies"
+  start "check_supplies"
 
 
   automated_action "check_supplies" do

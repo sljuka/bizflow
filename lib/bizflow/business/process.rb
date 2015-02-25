@@ -8,7 +8,7 @@ module Bizflow
 
       def run(runner_id)
         ph = Bizflow::Business::Head.wrap(heads.first)
-        action_name = start_action.name
+        action_name = start.name
         update(runner_id: runner_id, runned_at: Time.now)
         while action_name do
           ph.action = actions.select { |a| a.name == action_name }.first

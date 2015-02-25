@@ -1,5 +1,5 @@
 module Bizflow
-  module Domain
+  module SemanticModel
 
     class Task
 

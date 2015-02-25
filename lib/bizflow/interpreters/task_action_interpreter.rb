@@ -1,13 +1,13 @@
 
-require "bizflow/domain/task_action"
-require "bizflow/domain/task"
+require "bizflow/semantic_model/task_action"
+require "bizflow/semantic_model/task"
 
 class Bizflow::TaskActionInterpreter
 
   attr_accessor :action
 
   def initialize(name)
-    @action = Bizflow::Domain::TaskAction.new(name)
+    @action = Bizflow::SemanticModel::TaskAction.new(name)
   end
 
   def next_action(name)
@@ -19,7 +19,7 @@ class Bizflow::TaskActionInterpreter
   end
 
   def task(name, options)
-    action.add_task(Bizflow::Domain::Task.new(name, options))
+    action.add_task(Bizflow::SemanticModel::Task.new(name, options))
   end
 
 end
