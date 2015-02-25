@@ -23,7 +23,7 @@ module Bizflow
 
       Dir["#{File.dirname(__FILE__)}/../model/*.rb"].each { |path| require_relative path }
       domain_repo.processes.each do |p|
-        data_process = Bizflow::Model::ProcessBlueprint.create(
+        data_process = Bizflow::DataModel::ProcessBlueprint.create(
           name: p.name,
           description: p.description,
           start: p.start)

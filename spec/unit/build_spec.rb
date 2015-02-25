@@ -16,21 +16,21 @@ describe "build command" do
   before :each do
     Bizflow::SetupDbCommand.run(config, nil)
     
-    Dir["#{File.dirname(__FILE__)}/../../lib/bizflow/model/*.rb"].each { |path| require_relative path }
+    Dir["#{File.dirname(__FILE__)}/../../lib/bizflow/data_model/*.rb"].each { |path| require_relative path }
 
-    Bizflow::Model::TaskBlueprint.where('id > 0').delete
-    Bizflow::Model::HandlerBlueprint.where('id > 0').delete
-    Bizflow::Model::ActionBlueprint.where('id > 0').delete
-    Bizflow::Model::ProcessBlueprint.where('id > 0').delete
+    Bizflow::DataModel::TaskBlueprint.where('id > 0').delete
+    Bizflow::DataModel::HandlerBlueprint.where('id > 0').delete
+    Bizflow::DataModel::ActionBlueprint.where('id > 0').delete
+    Bizflow::DataModel::ProcessBlueprint.where('id > 0').delete
 
     Bizflow::BuildCommand.run(config, nil)
   end
 
   it "builds" do
 
-    expect(Bizflow::Model::ProcessBlueprint.count).to eq(1)
-    expect(Bizflow::Model::ActionBlueprint.count).to eq(4)
-    expect(Bizflow::Model::TaskBlueprint.count).to eq(5)
+    expect(Bizflow::DataModel::ProcessBlueprint.count).to eq(1)
+    expect(Bizflow::DataModel::ActionBlueprint.count).to eq(4)
+    expect(Bizflow::DataModel::TaskBlueprint.count).to eq(5)
 
   end
 end

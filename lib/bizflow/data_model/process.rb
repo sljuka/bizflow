@@ -3,7 +3,7 @@ require_relative 'action'
 
 module Bizflow
 
-  module Model
+  module DataModel
 
     class Process < Sequel::Model
 

@@ -2,7 +2,7 @@ require 'sequel'
 
 module Bizflow
 
-  module Model
+  module DataModel
 
     class ProcessBlueprint < Sequel::Model
 
