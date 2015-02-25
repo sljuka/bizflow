@@ -1,7 +1,7 @@
 require_relative 'simple_wrapper'
 
 module Bizflow
-  module Business
+  module BusinessModel
 
     class AutomatedAction < SimpleWrapper
 

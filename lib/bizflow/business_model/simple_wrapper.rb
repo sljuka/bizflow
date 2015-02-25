@@ -1,7 +1,7 @@
 require 'delegate'
 
 module Bizflow
-  module Business
+  module BusinessModel
     
     class SimpleWrapper < SimpleDelegator
 

@@ -1,9 +1,9 @@
 require "spec_helper"
 
-require "bizflow/business/process"
+require "bizflow/business_model/process"
 require 'bizflow/repo/test_repo'
 
-describe Bizflow::Business::Process, process: true do
+describe Bizflow::BusinessModel::Process, process: true do
 
   let(:task_bp_find)        { double(name: "find_book", role: "staff", description: "checks the book") }
   let(:handler_bp_check)    { double(name: "check_book", namespace: "library", description: "sets the book as checked out, and sets the date of checking and date of return.")}

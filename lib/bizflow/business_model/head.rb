@@ -4,18 +4,18 @@ require_relative 'automated_action'
 require_relative 'handler'
 
 module Bizflow
-  module Business
+  module BusinessModel
     
     class Head < SimpleWrapper
 
       # TODO what about merge
       def jump
         if action.type == "task"
-          ta = Bizflow::Business::TaskAction.wrap(action)
+          ta = Bizflow::BusinessModel::TaskAction.wrap(action)
           ta.create_tasks
           nil
         else
-          aa = Bizflow::Business::TaskAction.wrap(action)
+          aa = Bizflow::BusinessModel::TaskAction.wrap(action)
           handler = aa.handlers.first
           bus_handler = Handler.new(handler)
           res = bus_handler.handle

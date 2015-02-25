@@ -1,5 +1,5 @@
 module Bizflow
-  module Business
+  module BusinessModel
     
     class Handler < SimpleWrapper
 
