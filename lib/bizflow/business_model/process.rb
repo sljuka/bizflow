@@ -8,11 +8,11 @@ module Bizflow
 
       def run(runner_id)
         ph = Bizflow::BusinessModel::Head.wrap(heads.first)
-        action_name = start.name
+        action = Bizflow::DataModel::Action[start_action_id]
         update(runner_id: runner_id, runned_at: Time.now)
-        while action_name do
-          ph.action = actions.select { |a| a.name == action_name }.first
-          action_name = ph.jump
+        while action do
+          ph.update(action: action)
+          action = ph.jump
         end
       end
 

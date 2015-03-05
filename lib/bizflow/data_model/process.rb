@@ -1,5 +1,4 @@
 require 'sequel'
-require_relative 'action'
 
 module Bizflow
 
@@ -10,7 +9,7 @@ module Bizflow
       many_to_one :process_blueprint
       one_to_many :actions
       one_to_many :heads
-      one_to_one :start, :class => :'Bizflow::Model::Action'
+      one_to_one :start, :class => :'Bizflow::DataModel::Action'
 
     end
 

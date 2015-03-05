@@ -4,6 +4,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :process_id, :processes
       foreign_key :action_blueprint_id, :action_blueprints
+      String :description, :text => true
       String :name, :null => false
       String :type, :null => false
     end

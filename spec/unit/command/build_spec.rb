@@ -3,12 +3,12 @@ require "spec_helper"
 require "bizflow/command/build_command"
 require "bizflow/command/setup_db_command"
 
-describe "build command" do
+describe "build command", command: true do
 
   let(:config) {
     {
       base_path: File.expand_path("#{File.dirname(__FILE__)}"),
-      source_path: File.expand_path("#{File.dirname(__FILE__)}/biz_definition"),
+      source_path: File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts"),
       db_path: "spec/unit/test_db/bf_test.db"
     }
   }

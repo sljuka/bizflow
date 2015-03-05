@@ -3,10 +3,10 @@ require "spec_helper"
 require "bizflow/semantic_model/domain_repo"
 require "bizflow/domain_builder"
 
-describe Bizflow::DomainBuilder do
+describe Bizflow::DomainBuilder, semantic: true do
 
   let(:repo)    { Bizflow::SemanticModel::DomainRepo.new }
-  let(:builder) { Bizflow::DomainBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/biz_definition")) }
+  let(:builder) { Bizflow::DomainBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts")) }
 
   before :each do
     builder.repo = repo
