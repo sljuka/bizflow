@@ -1,13 +1,13 @@
 
-require "bizflow/semantic_model/automated_action"
+require "bizflow/semantic_model/input_action"
 require "bizflow/semantic_model/handler"
 
-class Bizflow::AutomatedActionInterpreter
+class Bizflow::InputActionInterpreter
 
   attr_accessor :action
 
   def initialize(name)
-    @action = Bizflow::SemanticModel::AutomatedAction.new(name)
+    @action = Bizflow::SemanticModel::InputAction.new(name)
   end
 
   def description(description)

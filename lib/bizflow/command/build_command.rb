@@ -1,6 +1,6 @@
 require "sqlite3"
 require 'sequel'
-require 'bizflow/domain_builder'
+require 'bizflow/semantic_builder'
 
 module Bizflow
   class BuildCommand
@@ -13,7 +13,7 @@ module Bizflow
       args_path = "#{Dir.pwd}/#{args[0]}" if(args && args[0])
 
       source_path = args_path || "#{config[:source_path]}"
-      db = Bizflow::DomainBuilder.new(source_path)
+      db = Bizflow::SemanticBuilder.new(source_path)
 
       domain_repo = db.build
 

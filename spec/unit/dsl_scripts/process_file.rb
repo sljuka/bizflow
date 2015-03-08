@@ -5,11 +5,10 @@ process "make_breakfast" do
   
   start "check_supplies"
 
-
-  automated_action "check_supplies" do
+  input_action "check_supplies" do
     
     description "checks if there are enaugh eggs, bacon and bread"
-    handler "check_supplies", namespace: "breakfast", description: "code which checks the supplies"
+    controll_input "food_controll", question: "Are there enaugh supplies?"
 
     next_actions(
       not_enaugh_supplies: "get_supplies",
@@ -29,7 +28,7 @@ process "make_breakfast" do
 
   end
 
-  automated_action "make_breakfast" do
+  task_action "make_breakfast" do
 
     description "sets stove, fry eggs, roast bacon"
     handler "make_breakfast", namespace: "breakfast"

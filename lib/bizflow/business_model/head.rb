@@ -1,7 +1,7 @@
 require_relative 'simple_wrapper'
 require_relative 'handler'
 require_relative 'task_action'
-require_relative 'automated_action'
+require_relative 'input_action'
 
 module Bizflow
   module BusinessModel
@@ -10,7 +10,7 @@ module Bizflow
 
       ActionHash = {
         task: Bizflow::BusinessModel::TaskAction,
-        auto: Bizflow::BusinessModel::AutomatedAction
+        input: Bizflow::BusinessModel::InputAction
       }
 
       # TODO what about merge

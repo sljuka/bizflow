@@ -1,7 +1,7 @@
 require "bizflow/semantic_model/domain_repo"
 require "bizflow/interpreters/domain_interpreter"
 
-class Bizflow::DomainBuilder
+class Bizflow::SemanticBuilder
 
   attr_accessor :repo, :source_path, :domain_interpreter
 

@@ -15,6 +15,14 @@ module Bizflow
         actions << action
       end
 
+      def task_actions
+        actions.select { |acc| acc.type == "task" }
+      end
+
+      def input_actions
+        actions.select { |acc| acc.type == "input"}
+      end
+
     end
 
   end

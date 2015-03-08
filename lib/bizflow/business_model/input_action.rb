@@ -3,7 +3,7 @@ require_relative 'simple_wrapper'
 module Bizflow
   module BusinessModel
 
-    class AutomatedAction < SimpleWrapper
+    class InputAction < SimpleWrapper
 
     end
 
