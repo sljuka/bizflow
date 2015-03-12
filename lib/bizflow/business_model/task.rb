@@ -14,7 +14,8 @@ module Bizflow
       end
 
       def finish
-
+        update(finished_at: Time.now)
+        Bizflow::BusinessModel::TaskAction.wrap(action).task_finished
       end
 
     end

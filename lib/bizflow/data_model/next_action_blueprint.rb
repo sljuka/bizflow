@@ -6,8 +6,8 @@ module Bizflow
 
     class NextAction < Sequel::Model
 
-      many_to_one :action
-      many_to_one :next_action, :class => :Action
+      many_to_one :action_blueprint
+      many_to_one :next_action_blueprint, :class => :ActionBlueprint
       
     end
 

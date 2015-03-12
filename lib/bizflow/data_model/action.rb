@@ -12,6 +12,9 @@ module Bizflow
       many_to_one :process
       many_to_one :action_blueprint
 
+      one_to_many :next_actions
+      many_to_many :actions, :join_table => :next_actions
+
     end
 
   end

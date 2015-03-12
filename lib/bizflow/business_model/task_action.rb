@@ -13,6 +13,21 @@ module Bizflow
         nil
       end
 
+      def task_finished
+        if active.empty?
+          heads_dataset.update(action_id: next_action.id)
+          head.jump
+        end
+      end
+
+      def active
+        tasks_dataset.where(finished_at: nil).all
+      end
+
+      def next_action
+        actions.first
+      end
+
     end
 
   end

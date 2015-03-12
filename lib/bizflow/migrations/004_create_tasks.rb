@@ -6,6 +6,7 @@ Sequel.migration do
       foreign_key :task_blueprint_id, :task_blueprints
       Integer :assignee_id
       String :name
+      DateTime :finished_at
     end
   end
 

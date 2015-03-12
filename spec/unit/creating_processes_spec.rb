@@ -14,6 +14,9 @@ describe Bizflow::BusinessModel::Process, process: true do
     action_bp2 = create(:action_bp, process_blueprint: @process_bp, name: "action_2")
     action_bp3 = create(:action_bp, process_blueprint: @process_bp, name: "action_3")
 
+    next_action_bp1 = create(action: action_bp1, next_action: action_bp2)
+    next_action_bp1 = create(action: action_bp2, next_action: action_bp3)
+
     @process_builder = Bizflow::Lib::ProcessBuilder.new
 
   end

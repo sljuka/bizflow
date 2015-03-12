@@ -7,17 +7,25 @@ module Bizflow
     class Process < SimpleWrapper
 
       def run(runner_id)
-        ph = Bizflow::BusinessModel::Head.wrap(heads.first)
-        action = Bizflow::DataModel::Action[start_action_id]
         update(runner_id: runner_id, runned_at: Time.now)
-        while action do
-          ph.update(action: action)
-          action = ph.jump
-        end
+        ph = Bizflow::BusinessModel::Head.wrap(head)
+        ph.run
       end
 
       def finish
         puts "process finished"
+      end
+
+      def head
+        heads.first
+      end
+
+      def current
+        head.action
+      end
+
+      def start_action
+        Bizflow::DataModel::Action[start_action_id]
       end
 
     end
