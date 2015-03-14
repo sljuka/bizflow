@@ -14,17 +14,23 @@ module Bizflow
       }
 
       def run
-        update(action_id: process.start_action_id)
-        jump
+        jump(process.start_action_id)
       end
 
       # TODO what about merge
-      def jump
+      def jump(next_id = nil)
+
+        update(action_id: next_id) if next_id
         raise "Head does not point to an action" unless action
         next_action = resolve_action(action)
         while next_action
           next_action = resolve_action(next_action)
         end
+        
+      end
+
+      def finish
+        update(action_id: nil)
       end
 
       private

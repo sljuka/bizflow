@@ -7,7 +7,7 @@ module Bizflow
     class NextAction < Sequel::Model
 
       many_to_one :action
-      many_to_one :next_action, :class => :Action
+      many_to_one :next, :class => :'Bizflow::DataModel::Action'
       
     end
 

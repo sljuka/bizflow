@@ -11,6 +11,7 @@ Sequel.migration do
       DateTime :created_at, default: Sequel::CURRENT_TIMESTAMP
       DateTime :runned_at
       DateTime :jumped_at
+      DateTime :finished_at
     end
   end
 

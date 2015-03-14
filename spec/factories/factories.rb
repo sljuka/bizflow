@@ -25,7 +25,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "action#{n}" }
   end
 
-  factory :next_action_bp, class: Bizflow::DataModel::NextAction do
+  factory :next_action_bp, class: Bizflow::DataModel::NextActionBlueprint do
     
   end
 

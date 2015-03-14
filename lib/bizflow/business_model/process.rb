@@ -13,7 +13,12 @@ module Bizflow
       end
 
       def finish
-        puts "process finished"
+        t = Time.now
+        update(finished_at: t, jumped_at: t)
+      end
+
+      def jump
+        update(jumped_at: Time.now)
       end
 
       def head

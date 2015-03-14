@@ -4,10 +4,10 @@ module Bizflow
 
   module DataModel
 
-    class NextAction < Sequel::Model
+    class NextActionBlueprint < Sequel::Model
 
       many_to_one :action_blueprint
-      many_to_one :next_action_blueprint, :class => :ActionBlueprint
+      many_to_one :next_blueprint, :class => :'Bizflow::DataModel::ActionBlueprint'
       
     end
 

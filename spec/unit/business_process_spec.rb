@@ -11,9 +11,13 @@ describe Bizflow::BusinessModel::Process, process: true do
 
     # schema
     process_bp = create(:process_bp, name: "process1", start: "action1")
+
     action_bp1 = create(:action_bp, process_blueprint: process_bp, name: "action1")
     action_bp2 = create(:action_bp, process_blueprint: process_bp, name: "action2")
     action_bp3 = create(:action_bp, process_blueprint: process_bp, name: "action3")
+
+    next_action_bp1 = create(:next_action_bp, action_blueprint: action_bp1, next_blueprint: action_bp2)
+    next_action_bp2 = create(:next_action_bp, action_blueprint: action_bp2, next_blueprint: action_bp3)
 
     task_bp1 = create(:task_bp, action_blueprint: action_bp1, name: "task1")
     task_bp2 = create(:task_bp, action_blueprint: action_bp1, name: "task2")
@@ -22,32 +26,88 @@ describe Bizflow::BusinessModel::Process, process: true do
 
     # actual process
     @process = Bizflow::Lib::ProcessBuilder.new.build(process_bp.id, 1)
+    @bp = Bizflow::BusinessModel::Process.new(@process)
+  end
+
+  it "moves its head as it progresses" do
+
+    # given
+    actions = @bp.actions
+    expect(@bp.current).to eq nil
+    
+    # when
+    @bp.run(12)
+
+    # then
+    expect(@bp.current).to eq actions[0]
+
+    # when
+    Bizflow::BusinessModel::TaskAction.wrap(@bp.current).finish
+    @bp.reload
+
+    # then
+    expect(@bp.current).to eq actions[1]
+
+    # when
+    Bizflow::BusinessModel::TaskAction.wrap(@bp.current).finish
+    @bp.reload
+
+    # then
+    expect(@bp.current).to eq actions[2]
+
+    # when
+    Bizflow::BusinessModel::TaskAction.wrap(@bp.current).finish
+    @bp.reload
+
+    # then
+    expect(@bp.current).to eq nil
+    expect(@bp.finished_at).to_not be nil
 
   end
 
-  it "can run" do
+  it "creates tasks as it progresses by finishing tasks" do
 
-    bp = Bizflow::BusinessModel::Process.new(@process)
+    # when
+    @bp.run(12)
 
-    actions = bp.actions
-    expect(bp.start_action_id).to eq actions.first.id
-    expect(actions.map(&:name)).to eq ["action1", "action2", "action3"]
-
-    bp.run(1)
-
-    expect(bp.current).to eq actions.first
-
-    tasks = Bizflow::BusinessModel::Task.wraps(bp.current.tasks)
-    expect(tasks.count).to eq 2
+    # then
+    tasks = Bizflow::DataModel::Task.where(finished_at: nil)
     expect(tasks.map(&:name)).to eq ["task1", "task2"]
 
-    ba = Bizflow::BusinessModel::TaskAction.new(bp.current)
-    expect(ba.active.map(&:id)).to eq tasks.map(&:id)
+    # when
+    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish }
 
-    tasks[0].finish
-    tasks[1].finish
+    # then
+    tasks = Bizflow::DataModel::Task.where(finished_at: nil)
+    expect(tasks.map(&:name)).to eq ["task3"]
 
-    expect(bp.current).to eq actions[1]
+    # when
+    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish }
+
+    # then
+    tasks = Bizflow::DataModel::Task.where(finished_at: nil)
+    expect(tasks.map(&:name)).to eq ["task4"]
+
+    # when
+    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish }
+
+    # then
+    tasks = Bizflow::DataModel::Task.where(finished_at: nil)
+    expect(tasks.map(&:name)).to eq []
+    @bp.reload
+    expect(@bp.finished_at).to_not be nil
+
+  end
+
+  it "follows runned_at, jumped_at times" do
+
+    @bp.run(140)
+
+    expect(@bp.runned_at).to_not be nil
+
+    Bizflow::BusinessModel::TaskAction.wrap(@bp.actions[0]).finish
+
+    expect(@bp.jumped_at).to_not be nil
 
   end
 

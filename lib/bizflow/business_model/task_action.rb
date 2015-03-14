@@ -14,9 +14,18 @@ module Bizflow
       end
 
       def task_finished
-        if active.empty?
-          heads_dataset.update(action_id: next_action.id)
-          head.jump
+        finish if active.empty?
+      end
+
+      def finish
+        bhs = Bizflow::BusinessModel::Head.wraps(heads)
+        bp = Bizflow::BusinessModel::Process.wrap(process)
+        if next_action
+          bhs.each { |h| h.jump(next_action.id) }
+          bp.jump
+        else
+          bhs.each { |h| h.finish }
+          bp.finish
         end
       end
 
@@ -25,7 +34,7 @@ module Bizflow
       end
 
       def next_action
-        actions.first
+        nexts.first
       end
 
     end

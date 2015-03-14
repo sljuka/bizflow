@@ -12,7 +12,7 @@ module Bizflow
       one_to_many :actions
 
       one_to_many :next_action_blueprints
-      many_to_many :action_blueprints, :join_table => :next_action_blueprints
+      many_to_many :next_blueprints, :join_table => :next_action_blueprints
 
     end
 
