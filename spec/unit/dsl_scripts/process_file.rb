@@ -8,7 +8,7 @@ process "make_breakfast" do
   input_action "check_supplies" do
     
     description "checks if there are enaugh eggs, bacon and bread"
-    controll_input "food_controll", question: "Are there enaugh supplies?"
+    control_input "supply_status", question: "Are there enaugh supplies?"
 
     next_actions(
       not_enaugh_supplies: "get_supplies",
@@ -31,15 +31,14 @@ process "make_breakfast" do
   task_action "make_breakfast" do
 
     description "sets stove, fry eggs, roast bacon"
-    handler "make_breakfast", namespace: "breakfast"
+    task "make_breakfast", roles: ["kitchen"]
 
-    next_actions(success: "serve_breakfast")
+    next_action "serve_breakfast"
     
   end
 
   task_action "serve_breakfast" do
 
-    description "prepare table, slice bread"
     task "prepare_table", roles: ["servers"]
     task "slice_bread", roles: ["kitchen"]
 

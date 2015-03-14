@@ -22,6 +22,10 @@ class Bizflow::ProcessInterpreter
     process.add_action(task_action_interpreter.action)
   end
 
+  def handler_action(name, &action)
+
+  end
+
   def description(description)
     process.description = description
   end

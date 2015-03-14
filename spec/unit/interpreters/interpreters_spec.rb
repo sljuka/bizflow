@@ -1,73 +1,94 @@
 require "bizflow/semantic_model/domain_repo"
-require "bizflow/semantic_builder"
+require "bizflow/lib/semantic_builder"
 
-describe Bizflow::SemanticBuilder, semantic: true do
+describe Bizflow::Lib::SemanticBuilder, interpreter: true do
 
   before :each do
     @repo = Bizflow::SemanticModel::DomainRepo.new
-    @builder = Bizflow::SemanticBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts"))
+    @builder = Bizflow::Lib::SemanticBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts"))
     @builder.repo = @repo
   end
 
-  it "fills the repo with processes while building the domain" do
+  it "fills the semantic repo with processes while building the semantic model" do
 
     @builder.build
     expect(@repo.processes.count).to eq(1)
     
-    expect(@repo.processes[0].name).to eq("make_breakfast")
-    expect(@repo.processes[0].description).to eq("creates breakfast")
-    expect(@repo.processes[0].start).to eq("check_supplies")
+    process = @repo.processes[0]
 
-    expect(@repo.processes[0].actions.count).to eq(4)
+    expect(process.name).to eq("make_breakfast")
+    expect(process.description).to eq("creates breakfast")
+    expect(process.start).to eq("check_supplies")
 
   end
 
-  it "fills the domain repo with automated actions" do
+  it "fills the semantic repo with actions" do
 
     @builder.build
+    process = @repo.processes[0]
+    actions = process.actions
 
-    check_supplies = @repo.processes[0].actions.select { |item| item.name == "check_supplies" }.first
+    expect(actions.count).to eq 4
+
+    # name
+    expect(actions.map(&:name)).to eq(["check_supplies", "get_supplies", "make_breakfast", "serve_breakfast"])
     
-    expect(check_supplies.name).to eq("check_supplies")
-    expect(check_supplies.description).to eq("checks if there are enaugh eggs, bacon and bread")
-    
-    expect(check_supplies.handler.name).to eq("check_supplies")
-    expect(check_supplies.handler.namespace).to eq("breakfast")
-    expect(check_supplies.handler.description).to eq("code which checks the supplies")
-    expect(check_supplies.next_actions).to eq({
+    # descritpion
+    expect(actions.map(&:description)).to eq([
+      "checks if there are enaugh eggs, bacon and bread",
+      "get enaugh eggs, bacon and bread",
+      "sets stove, fry eggs, roast bacon",
+      nil
+    ])
+
+    input_actions = actions.select { |a| a.type == "input"}.first
+    expect(input_actions.next_actions).to eq(
       not_enaugh_supplies: "get_supplies",
       enaugh_supplies: "make_breakfast"
-    })
+    )
 
-    make_breakfast = @repo.processes[0].actions.select { |item| item.name == "make_breakfast" }.first
-    expect(make_breakfast.name).to eq("make_breakfast")
-    expect(make_breakfast.description).to eq("sets stove, fry eggs, roast bacon")
-    expect(make_breakfast.handler.name).to eq("make_breakfast")
-    expect(make_breakfast.handler.namespace).to eq("breakfast")
-    expect(make_breakfast.handler.description).to eq(nil)
-    expect(make_breakfast.next_actions).to eq({ success: "serve_breakfast" })
+    task_action_next_actions = actions.select { |a| a.type == "task"}.map(&:next_action)
+    expect(task_action_next_actions).to eq ["make_breakfast", "serve_breakfast", "process:finish"]
 
   end
 
-  it "fills the domain with task actions" do
+  it "fills the semantic repo with tasks" do
 
     @builder.build
+    process = @repo.processes[0]
+    actions = process.actions
+    tasks = actions.select { |a| a.type == "task" }.map(&:tasks).flatten
 
-    get_supplies = @repo.processes[0].actions.select { |item| item.name == "get_supplies" }.first
-    expect(get_supplies.name).to eq("get_supplies")
-    expect(get_supplies.description).to eq("get enaugh eggs, bacon and bread")
-    expect(get_supplies.tasks.count).to eq(3)
-    expect(get_supplies.next_action).to eq("make_breakfast")
+    expect(tasks.count).to eq(6)
 
-    serve_breakfast = @repo.processes[0].actions.select { |item| item.name == "serve_breakfast" }.first
-    expect(serve_breakfast.name).to eq("serve_breakfast")
-    expect(serve_breakfast.description).to eq("prepare table, slice bread")
-    expect(serve_breakfast.tasks.count).to eq(2)
+    expect(tasks.map(&:name)).to eq(["get_bacon", "get_eggs", "get_bread", "make_breakfast", "prepare_table", "slice_bread"])
     
-    task = serve_breakfast.tasks.select {|item| item.name == "slice_bread"}.first
-    expect(task.roles).to eq(["kitchen"])
-    
-    expect(serve_breakfast.next_action).to eq("process:finish")
+    expect(tasks.map(&:description)).to eq([
+      "optional description",
+      nil,
+      nil,
+      nil,
+      nil,
+      nil
+    ])
+
+    expect(tasks.map(&:auto_assign)).to eq([
+      true,
+      false,
+      false,
+      false,
+      false,
+      false
+    ])
+
+    expect(tasks.map {|t| [t.name, t.roles]}).to eq([
+      ["get_bacon", ["storage", "kitchen"]],
+      ["get_eggs", ["storage", "kitchen"]],
+      ["get_bread", ["storage"]],
+      ["make_breakfast", ["kitchen"]],
+      ["prepare_table", ["servers"]],
+      ["slice_bread", ["kitchen"]]
+    ])
 
   end
 

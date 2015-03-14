@@ -9,7 +9,7 @@ module Bizflow
         @name = name
         @roles = options[:roles]
         @description = options[:description]
-        @auto_assign = options[:auto_assign]
+        @auto_assign = options[:auto_assign] || false
       end
 
     end

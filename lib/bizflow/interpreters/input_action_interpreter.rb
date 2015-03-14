@@ -4,7 +4,7 @@ require "bizflow/semantic_model/handler"
 
 class Bizflow::InputActionInterpreter
 
-  attr_accessor :action
+  attr_accessor :action, :control_input, :question
 
   def initialize(name)
     @action = Bizflow::SemanticModel::InputAction.new(name)
@@ -12,6 +12,11 @@ class Bizflow::InputActionInterpreter
 
   def description(description)
     action.description = description
+  end
+
+  def control_input(name, options = {})
+    control_input = name
+    question = options[:question]
   end
 
   def handler(name, options = {})

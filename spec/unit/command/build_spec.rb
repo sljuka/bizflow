@@ -1,36 +1,24 @@
-require "spec_helper"
-
-require "bizflow/command/build_command"
-require "bizflow/command/setup_db_command"
+require "spec_config"
+require "bizflow/lib/blueprint_builder"
+require "bizflow/lib/semantic_builder"
 
 describe "build command", command: true do
 
-  let(:config) {
-    {
-      base_path: File.expand_path("#{File.dirname(__FILE__)}"),
-      source_path: File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts"),
-      db_path: "spec/unit/test_db/bf_test.db"
-    }
-  }
-
   before :each do
-    Bizflow::SetupDbCommand.run(config, nil)
-    
-    Dir["#{File.dirname(__FILE__)}/../../lib/bizflow/data_model/*.rb"].each { |path| require_relative path }
-
-    Bizflow::DataModel::TaskBlueprint.where('id > 0').delete
-    Bizflow::DataModel::HandlerBlueprint.where('id > 0').delete
-    Bizflow::DataModel::ActionBlueprint.where('id > 0').delete
-    Bizflow::DataModel::ProcessBlueprint.where('id > 0').delete
-
-    Bizflow::BuildCommand.run(config, nil)
-  end
-
-  it "builds" do
-
-    expect(Bizflow::DataModel::ProcessBlueprint.count).to eq(1)
-    expect(Bizflow::DataModel::ActionBlueprint.count).to eq(4)
-    expect(Bizflow::DataModel::TaskBlueprint.count).to eq(5)
+  	
+  	@repo = Bizflow::SemanticModel::DomainRepo.new
+    builder = Bizflow::Lib::SemanticBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts"))
+    builder.repo = @repo
+  	builder.build
+  	
 
   end
+
+  it "persists process blueprints" do
+
+  	Bizflow::Lib::BlueprintBuilder.new.build(@repo)
+  	expect(Bizflow::DataModel::ProcessBlueprint.count).to eq 1
+
+  end
+
 end

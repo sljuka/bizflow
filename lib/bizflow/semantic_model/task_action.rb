@@ -9,8 +9,7 @@ module Bizflow
 
       def initialize(name)
         super("task", name)
-        @tasks = []
-        @next_action 
+        @tasks = [] 
       end
 
       def add_task(task)
