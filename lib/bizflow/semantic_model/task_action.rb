@@ -16,6 +16,10 @@ module Bizflow
         tasks << task
       end
 
+      def next_actions
+        { only_one: next_action }
+      end
+
     end
   
   end

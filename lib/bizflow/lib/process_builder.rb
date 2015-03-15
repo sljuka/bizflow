@@ -1,10 +1,16 @@
-require_relative '../data_model/process'
+require 'bizflow/data_model/process'
+require 'bizflow/data_model/action'
+require 'bizflow/business_model/process'
+
 
 module Bizflow
   module Lib
     class ProcessBuilder
 
       def build(blueprint_id, creator_id)
+
+        pbp = Bizflow::DataModel::ProcessBlueprint[blueprint_id]
+        raise "no process with id '#{blueprint_id}'" unless pbp
 
         actions_map = {}
 
@@ -44,8 +50,7 @@ module Bizflow
 
         process.add_head({})
 
-
-        process
+        Bizflow::BusinessModel::Process.wrap(process)
       end
 
     end

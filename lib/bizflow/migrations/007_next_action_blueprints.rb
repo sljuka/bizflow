@@ -4,6 +4,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :action_blueprint_id, :action_blueprints
       foreign_key :next_blueprint_id, :action_blueprints
+      String :ending
     end
   end
 

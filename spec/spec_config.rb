@@ -4,7 +4,7 @@ require "database_cleaner"
 require "factory_girl"
 
 # using the sqlite memory database
-Sequel::Model.db = Sequel.sqlite
+Sequel::Model.db = Sequel.sqlite(':memory:')
 
 # migrate and require all data models
 Sequel.extension :migration, :core_extensions

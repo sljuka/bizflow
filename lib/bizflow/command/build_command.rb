@@ -1,60 +1,32 @@
 require "sqlite3"
 require 'sequel'
-require 'bizflow/semantic_builder'
 
 module Bizflow
   class BuildCommand
 
-    def self.run(config, args)
+    def self.run(config, args = [])
 
-      puts "Building processes"
+      puts "Building processes..."
 
-      args_path = nil
-      args_path = "#{Dir.pwd}/#{args[0]}" if(args && args[0])
+      require 'bizflow/lib/semantic_builder'
 
-      source_path = args_path || "#{config[:source_path]}"
-      db = Bizflow::SemanticBuilder.new(source_path)
+      source_path = args[0] || config[:source_path]
+      raise "dsl source path not specified" if source_path.nil?
+      source_path = "#{Dir.pwd}/#{source_path}"
+      domain_repo = Bizflow::Lib::SemanticBuilder.new(source_path).build
 
-      domain_repo = db.build
-
-      raise if config[:db_path].nil?
+      raise "bizflow database path not specified" if config[:db_path].nil?
       db_path = "#{Dir.pwd}/#{config[:db_path]}"
       db = Sequel.sqlite(db_path)
 
       Dir["#{File.dirname(__FILE__)}/../model/*.rb"].each { |path| require_relative path }
-      domain_repo.processes.each do |p|
-        data_process = Bizflow::DataModel::ProcessBlueprint.create(
-          name: p.name,
-          description: p.description,
-          start: p.start)
 
-        create_action_blueprints(data_process, p)
-      end
+      require 'bizflow/lib/blueprint_builder'
+
+      Bizflow::Lib::BlueprintBuilder.new.build(domain_repo)
 
       puts "Processes built"
 
-    end
-
-    private
-
-    def self.create_action_blueprints(data_process, process)
-      process.actions.each do |b|
-        data_action = data_process.add_action_blueprint(type: b.type, name: b.name, description: b.description)
-        create_task_blueprints(data_action, b)
-        create_handler_blueprints(data_action, b)
-      end
-    end
-
-    def self.create_task_blueprints(data_action, action)
-      return if action.type == "auto"
-      action.tasks.each do |t|
-        data_action.add_task_blueprint(name: t.name, roles: t.roles.join(" "), description: t.description, auto_assign: t.auto_assign)
-      end
-    end
-
-    def self.create_handler_blueprints(data_action, action)
-      return if action.type == "task"
-      data_action.add_handler_blueprint(name: action.handler.name, namespace: action.handler.namespace, description: action.handler.description)
     end
 
   end

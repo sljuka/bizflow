@@ -8,7 +8,6 @@ ARGV.clear
 command = args.shift.strip rescue 'help'
 
 require "bizflow/command/command_helper"
-require "bizflow/command/build_command"
 
 config = {}
 

@@ -11,6 +11,18 @@ module Bizflow
         @description = nil
       end
 
+      def next_actions
+        raise NotImplementedError
+      end
+
+      def tasks
+        []
+      end
+
+      def handler
+        nil
+      end
+
     end
   
   end
