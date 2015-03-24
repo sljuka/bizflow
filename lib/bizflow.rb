@@ -1,10 +1,8 @@
 require "bizflow/version"
 
-require "bizflow/repo/repo"
+require "bizflow/repos/repo"
 
 module Bizflow
-	module Model
-
-	end
+	
   # Your code goes here...
 end

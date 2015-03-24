@@ -2,7 +2,6 @@ require "spec_config"
 
 require "bizflow/business_model/process"
 require "bizflow/business_model/task_action"
-require 'bizflow/repo/test_repo'
 require 'bizflow/lib/process_builder'
 
 describe Bizflow::BusinessModel::Process, process: true do

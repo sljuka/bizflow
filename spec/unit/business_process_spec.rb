@@ -39,6 +39,7 @@ describe Bizflow::BusinessModel::Process, process: true do
     @bp.run(12)
 
     # then
+    expect(@bp.finished_at).to be nil
     expect(@bp.current).to eq actions[0]
 
     # when

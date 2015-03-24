@@ -1,5 +1,6 @@
-require 'bizflow/data_model/process'
-require 'bizflow/data_model/action'
+# require 'bizflow/data_model/action'
+# require 'bizflow/data_model/process_blueprint'
+# require 'bizflow/data_model/next_action'
 require 'bizflow/business_model/process'
 
 
@@ -38,10 +39,9 @@ module Bizflow
         bp.action_blueprints.each do |abp|
 
           abp.next_action_blueprints.each do |nbp|
-
             acc = Bizflow::DataModel::NextAction.create(
               action_id: actions_map[nbp.action_blueprint.name],
-              next_id: actions_map[nbp.next_blueprint.name]
+              next_id: nbp.next_blueprint ? actions_map[nbp.next_blueprint.name] : nil
             )
 
           end
