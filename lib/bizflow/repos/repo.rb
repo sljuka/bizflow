@@ -35,6 +35,12 @@ module Bizflow
         end
       end
 
+      def run_process(id, user_id)
+        p = Bizflow::DataModel::Process[id]
+        p = Bizflow::BusinessModel::Process.wrap p
+        p.run(user_id)
+      end
+
       def find_process(id)
         p = Bizflow::DataModel::Process[id]
         Bizflow::BusinessModel::Process.wrap p
