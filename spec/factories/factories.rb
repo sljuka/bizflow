@@ -8,6 +8,11 @@ FactoryGirl.define do
     start "action_blueprint1"
   end
 
+  factory :input_bp, class: Bizflow::DataModel::ActionBlueprint do
+    sequence(:name) { |n| "input_action_blueprint#{n}" }
+    type "input"
+  end
+
   factory :action_bp , class: Bizflow::DataModel::ActionBlueprint do
     sequence(:name) { |n| "action_blueprint#{n}" }
     type "task"

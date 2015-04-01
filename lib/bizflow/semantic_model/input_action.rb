@@ -5,12 +5,12 @@ module Bizflow
     
     class InputAction < Action
 
-      attr_accessor :next_actions, :handler
+      attr_accessor :next_actions, :control_input
 
       def initialize(name)
         super("input", name)
         @next_actions = {}
-        @handler = nil
+        @control_input = nil
       end
   
     end

@@ -41,7 +41,8 @@ module Bizflow
           abp.next_action_blueprints.each do |nbp|
             acc = Bizflow::DataModel::NextAction.create(
               action_id: actions_map[nbp.action_blueprint.name],
-              next_id: nbp.next_blueprint ? actions_map[nbp.next_blueprint.name] : nil
+              next_id: nbp.next_blueprint ? actions_map[nbp.next_blueprint.name] : nil,
+              ending: nbp.ending
             )
 
           end

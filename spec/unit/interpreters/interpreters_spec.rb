@@ -5,7 +5,7 @@ describe Bizflow::Lib::SemanticBuilder, interpreter: true do
 
   before :each do
     @repo = Bizflow::SemanticModel::DomainRepo.new
-    @builder = Bizflow::Lib::SemanticBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts"))
+    @builder = Bizflow::Lib::SemanticBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts/breakfast"))
     @builder.repo = @repo
   end
 
@@ -32,6 +32,7 @@ describe Bizflow::Lib::SemanticBuilder, interpreter: true do
 
     # name
     expect(actions.map(&:name)).to eq(["check_supplies", "get_supplies", "make_breakfast", "serve_breakfast"])
+    expect(actions.map(&:type)).to eq(["input", "task", "task", "task"])
     
     # descritpion
     expect(actions.map(&:description)).to eq([

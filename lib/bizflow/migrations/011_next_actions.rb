@@ -4,6 +4,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :action_id, :actions
       foreign_key :next_id, :actions
+      String :ending
     end
   end
 
