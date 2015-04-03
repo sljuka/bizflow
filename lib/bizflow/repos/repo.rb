@@ -17,22 +17,12 @@ module Bizflow
         Bizflow::Lib::ProcessBuilder.new.build(blueprint_id, creator_id)
       end
 
-      def process_blueprints
-        Bizflow::DataModel::ProcessBlueprint.all
+      def blueprints
+        Bizflow::DataModel::ProcessBlueprint
       end
 
-      def processes(names = [])
-        if names && !names.empty?
-          {
-            blueprints: Bizflow::DataModel::ProcessBlueprint.where(name: names).select_group(:name).select_append { max(id).as(latest) }.all,
-            processes: Bizflow::DataModel::Process.where(name: names).all
-          }
-        else
-          {
-            blueprints: Bizflow::DataModel::ProcessBlueprint.select_group(:name).select_append { max(id).as(latest) }.all, 
-            processes: Bizflow::DataModel::Process.all
-          }
-        end
+      def processes
+        Bizflow::DataModel::Process
       end
 
       def run_process(id, user_id)
@@ -41,17 +31,12 @@ module Bizflow
         p.run(user_id)
       end
 
-      def find_process(id)
-        p = Bizflow::DataModel::Process[id]
-        Bizflow::BusinessModel::Process.wrap p
+      def tasks
+        Bizflow::DataModel::Task.all
       end
 
-      def tasks(user_id = nil, active = true)
-        if user_id
-          Bizflow::DataModel::Task.where(assignee_id: user_id)
-        else
-          Bizflow::DataModel::Task.all
-        end
+      def actions
+        Bizflow::DataModel::Action.all
       end
 
       def db_path
