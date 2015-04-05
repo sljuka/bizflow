@@ -7,6 +7,7 @@ Sequel.migration do
       String :name
       String :description, :text=>true
       Integer :creator_id, :null=>false
+      String :pid, :null => false
       Integer :runner_id
       DateTime :created_at, default: Sequel::CURRENT_TIMESTAMP
       DateTime :runned_at

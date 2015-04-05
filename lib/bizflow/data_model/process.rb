@@ -11,6 +11,10 @@ module Bizflow
       one_to_many :heads
       one_to_one :start, :class => :'Bizflow::DataModel::Action'
 
+      def human_name
+      	name.humanize
+      end
+
     end
 
   end

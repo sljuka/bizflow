@@ -31,6 +31,7 @@ describe Bizflow::BusinessModel::Process, process: true do
 
     expect(Bizflow::DataModel::Process.count).to eq 1
     expect(process.name).to eq "new_process"
+    expect(process.pid).to_not be nil
     
     p = Bizflow::DataModel::Process.first
 

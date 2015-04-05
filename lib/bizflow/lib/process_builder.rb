@@ -2,11 +2,14 @@
 # require 'bizflow/data_model/process_blueprint'
 # require 'bizflow/data_model/next_action'
 require 'bizflow/business_model/process'
+require 'securerandom'
 
 
 module Bizflow
   module Lib
     class ProcessBuilder
+
+      PID_LENGTH = 9
 
       def build(blueprint_id, creator_id)
 
@@ -19,7 +22,8 @@ module Bizflow
         process = bp.add_process(
           name: bp.name,
           creator_id: creator_id,
-          description: bp.description)
+          description: bp.description,
+          pid: (SecureRandom.random_number * 10**PID_LENGTH).to_i)
 
         bp.action_blueprints.each do |a|
 
