@@ -32,11 +32,11 @@ module Bizflow
       end
 
       def tasks
-        Bizflow::DataModel::Task.all
+        Bizflow::DataModel::Task
       end
 
       def actions
-        Bizflow::DataModel::Action.all
+        Bizflow::DataModel::Action
       end
 
       def db_path
