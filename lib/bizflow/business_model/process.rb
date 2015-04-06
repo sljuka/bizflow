@@ -21,14 +21,6 @@ module Bizflow
         update(jumped_at: Time.now)
       end
 
-      def head
-        heads.first
-      end
-
-      def current
-        head.action
-      end
-
       def start_action
         Bizflow::DataModel::Action[start_action_id]
       end

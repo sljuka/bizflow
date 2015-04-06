@@ -15,6 +15,14 @@ module Bizflow
       	name.humanize
       end
 
+      def head
+        heads.first
+      end
+
+      def current
+        head.action
+      end
+
     end
 
   end
