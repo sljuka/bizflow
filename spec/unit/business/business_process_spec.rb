@@ -90,14 +90,14 @@ describe Bizflow::BusinessModel::Process, process: true do
     expect(tasks.map(&:name)).to eq ["task3"]
 
     # when
-    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish }
+    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish(41) }
 
     # then
     tasks = Bizflow::DataModel::Task.where(finished_at: nil)
     expect(tasks.map(&:name)).to eq ["task4"]
 
     # when
-    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish }
+    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish(41) }
 
     # then
     tasks = Bizflow::DataModel::Task.where(finished_at: nil)

@@ -16,7 +16,7 @@ class Bizflow::InputActionInterpreter
 
   def control_input(name, options = {})
     control_input = name
-    question = options[:question]
+    action.question = options[:question]
   end
 
   def handler(name, options = {})

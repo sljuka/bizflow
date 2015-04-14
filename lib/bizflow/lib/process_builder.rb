@@ -32,6 +32,7 @@ module Bizflow
             type: a.type,
             process: process,
             description: a.description,
+            question: a.question,
             action_blueprint_id: a.id)
           
           actions_map[a.name] = action.id

@@ -3,7 +3,7 @@ module Bizflow
     
     class Action
 
-      attr_accessor :name, :description, :type
+      attr_accessor :name, :description, :type, :question
 
       def initialize(type, name, description = nil)
         @type = type

@@ -26,7 +26,8 @@ module Bizflow
             action = process.add_action_blueprint(
               name: a.name,
               type: a.type,
-              description: a.description
+              description: a.description,
+              question: a.question
             )
 
             # tasks

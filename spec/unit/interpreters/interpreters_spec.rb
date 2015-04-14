@@ -42,6 +42,13 @@ describe Bizflow::Lib::SemanticBuilder, interpreter: true do
       nil
     ])
 
+    expect(actions.map(&:question)).to eq([
+      "Are there enaugh supplies?",
+      nil,
+      nil,
+      nil
+    ])
+
     input_actions = actions.select { |a| a.type == "input"}.first
     expect(input_actions.next_actions).to eq(
       not_enaugh_supplies: "get_supplies",

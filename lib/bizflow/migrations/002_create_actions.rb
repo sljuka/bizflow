@@ -7,6 +7,7 @@ Sequel.migration do
       String :description, :text => true
       String :name, :null => false
       String :type, :null => false
+      String :question
     end
   end
 

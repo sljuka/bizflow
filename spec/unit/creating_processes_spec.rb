@@ -10,7 +10,7 @@ describe Bizflow::BusinessModel::Process, process: true do
 
     @process_bp = create(:process_bp, name: "new_process", start: "action_0")
 
-    action_bp0 = create(:input_bp, process_blueprint: @process_bp, name: "action_0")
+    action_bp0 = create(:input_bp, process_blueprint: @process_bp, name: "action_0", question: "Is there enaugh something?")
     action_bp1 = create(:action_bp, process_blueprint: @process_bp, name: "action_1")
     action_bp2 = create(:action_bp, process_blueprint: @process_bp, name: "action_2")
     action_bp3 = create(:action_bp, process_blueprint: @process_bp, name: "action_3")
@@ -39,6 +39,7 @@ describe Bizflow::BusinessModel::Process, process: true do
     expect(p.actions.count).to eq 4
     expect(p.actions.map(&:name)).to eq ["action_0", "action_1", "action_2", "action_3"]
     expect(p.actions.map(&:type)).to eq ["input", "task", "task", "task"]
+    expect(p.actions.map(&:question)).to eq ["Is there enaugh something?", nil, nil, nil]
 
     biz_actions = Bizflow::BusinessModel::TaskAction.wraps(p.actions)
     expect(biz_actions[0].next_actions.map(&:next)).to eq [p.actions[1], p.actions[2]]
