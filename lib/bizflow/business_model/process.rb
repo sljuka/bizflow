@@ -1,5 +1,6 @@
 require_relative 'simple_wrapper'
 require_relative 'head'
+require 'bizflow/lib/callback_handler'
 
 module Bizflow
   module BusinessModel
@@ -23,6 +24,12 @@ module Bizflow
 
       def start_action
         Bizflow::DataModel::Action[start_action_id]
+      end
+
+      private
+
+      def callback_handler
+        @callback_handler ||= "some_string"
       end
 
     end
