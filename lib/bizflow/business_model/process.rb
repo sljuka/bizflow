@@ -1,35 +1,38 @@
 require_relative 'simple_wrapper'
 require_relative 'head'
-require 'bizflow/lib/callback_handler'
+require 'bizflow/lib/callbackable'
 
 module Bizflow
   module BusinessModel
 
     class Process < SimpleWrapper
 
-      def run(runner_id)
-        update(runner_id: runner_id, runned_at: Time.now)
+      include Bizflow::Lib::Callbackable
+
+      def start(runner_id, &block)
+
+        setup_callbacks(&block)
+        
+        if runned_at != nil
+          callback(:already_started, data: self, message: "process has already been started") and return 
+        end
+        
         ph = Bizflow::BusinessModel::Head.wrap(head)
-        ph.run
+        ph.jump(start_action_id)
+        update(runner_id: runner_id, runned_at: Time.now)        
+        
+        callback(:success, data: self, message: "process started successfully")
+
       end
 
       def finish
-        t = Time.now
-        update(finished_at: t, jumped_at: t)
-      end
-
-      def jump
-        update(jumped_at: Time.now)
-      end
-
-      def start_action
-        Bizflow::DataModel::Action[start_action_id]
+        update(finished_at: Time.now)
       end
 
       private
 
-      def callback_handler
-        @callback_handler ||= "some_string"
+      def start_action
+        Bizflow::DataModel::Action[start_action_id]
       end
 
     end

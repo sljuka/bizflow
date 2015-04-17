@@ -2,6 +2,7 @@ require_relative 'simple_wrapper'
 require_relative 'handler'
 require_relative 'task_action'
 require_relative 'input_action'
+require_relative 'process'
 
 module Bizflow
   module BusinessModel
@@ -13,32 +14,18 @@ module Bizflow
         input: Bizflow::BusinessModel::InputAction
       }
 
-      def run
-        jump(process.start_action_id)
-      end
-
-      # TODO what about merge
       def jump(next_id = nil)
 
-        update(action_id: next_id) if next_id
-        raise "Head does not point to an action" unless action
-        next_action = resolve_action(action)
-        while next_action
-          next_action = resolve_action(next_action)
+        if next_id.nil?
+          Bizflow::BusinessModel::Process.wrap(process).finish
+          return
         end
+
+        update(action_id: next_id)
+        raise "Head does not point to an action" unless action
+        bus_action = ActionHash[action.type.to_sym].new(action)
+        bus_action.resolve
         
-      end
-
-      def finish
-        update(action_id: nil)
-      end
-
-      private
-
-      def resolve_action(action)
-        update(action: action)
-        ba = ActionHash[action.type.to_sym].new(action)
-        ba.resolve
       end
 
     end

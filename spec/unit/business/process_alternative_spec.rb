@@ -44,20 +44,33 @@ describe Bizflow::BusinessModel::Process, process: true do
     res = nil
 
     # when
-    @bp.run(random_user_id) do |on|
+    @bp.start(random_user_id) do |on|
 
-      on.success {
-        res = "success"
+      on.success { |r|
+        res = r[:message]
       }
 
-      on.already_started {
-        res = "already_started"
+      on.already_started { |r|
+        res = r[:message]
       }
 
     end
 
-    # then
-    expect(res).to eq "success"
+    expect(res).to eq "process started successfully"
+
+    @bp.start(random_user_id) do |on|
+
+      on.success { |r|
+        res = r[:message]
+      }
+
+      on.already_started { |r|
+        res = r[:message]
+      }
+
+    end
+
+    expect(res).to eq "process has already been started"
 
   end
 

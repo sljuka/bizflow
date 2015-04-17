@@ -4,6 +4,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :process_id, :processes
       foreign_key :action_id, :actions
+      DateTime :jumped_at
       index [:process_id, :action_id], :unique=>true
     end
   end

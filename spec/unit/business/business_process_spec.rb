@@ -31,91 +31,172 @@ describe Bizflow::BusinessModel::Process, process: true do
 
     # actual process
     @process = Bizflow::Lib::ProcessBuilder.new.build(process_bp.id, 1)
-    @bp = Bizflow::BusinessModel::Process.new(@process)
+    @b_process = Bizflow::BusinessModel::Process.new(@process)
   end
 
   it "moves its head to right positions as it progresses" do
 
     # given
-    actions = @bp.actions
-    expect(@bp.current).to eq nil
-    
-    random_user_id = 12
+    actions = @b_process.actions
+
+    expect(@b_process.current).to eq nil
 
     # when
-    @bp.run(random_user_id)
+    @b_process.start(13) do |on|
+
+      on.success { |r|
+
+      }
+
+      on.already_started { |res|
+        raise "test failed"
+      }
+
+    end
 
     # then
-    expect(@bp.finished_at).to be nil
-    expect(@bp.current.name).to eq "action0"
+    expect( @b_process.finished_at ).to be nil
+    expect( @b_process.current.name ).to eq "action0"
 
     # when
-    Bizflow::BusinessModel::InputAction.wrap(@bp.current).submit_input("action2")
-    @bp.reload
+    Bizflow::BusinessModel::InputAction.wrap(@b_process.current).submit_input("action2") do |on|
+      
+      on.bad_input { |res|
+        raise res[:message]
+      }
+
+      on.not_active { |res|
+        raise res[:message]
+      }
+
+      on.success {
+        
+      }
+
+    end
+
+    @b_process.reload
 
     # then
-    expect(@bp.current).to eq actions[2]
+    expect(@b_process.current).to eq actions[2]
 
     # when
-    Bizflow::BusinessModel::TaskAction.wrap(@bp.current).finish
-    @bp.reload
+    Bizflow::BusinessModel::TaskAction.wrap(@b_process.current).finish
+    @b_process.reload
 
     # then
-    expect(@bp.current).to eq actions[3]
+    expect(@b_process.current).to eq actions[3]
 
     # when
-    Bizflow::BusinessModel::TaskAction.wrap(@bp.current).finish
-    @bp.reload
+    Bizflow::BusinessModel::TaskAction.wrap(@b_process.current).finish
+    @b_process.reload
 
     # then
-    expect(@bp.current).to eq nil
-    expect(@bp.finished_at).to_not be nil
+    expect(@b_process.current).to eq actions[3]
+    expect(@b_process.finished_at).to_not be nil
 
   end
 
   it "creates tasks as it progresses by finishing tasks" do
 
     # when
-    @bp.run(12)
+    @b_process.start(12) do |on|
+
+      on.success { |res|
+
+      }
+
+      on.already_started { |res|
+        raise "test failed"
+      }
+
+    end
 
     # then
     tasks = Bizflow::DataModel::Task.where(finished_at: nil)
     expect(tasks.map(&:name)).to eq []
 
     # when
-    Bizflow::BusinessModel::InputAction.wrap(@bp.current).submit_input("action2")
+    Bizflow::BusinessModel::InputAction.wrap(@b_process.current).submit_input("action2") do |on|
+      on.bad_input { |res|
+        raise res[:message]
+      }
+
+      on.not_active { |res|
+        raise res[:message]
+      }
+
+      on.success {
+        
+      }
+
+    end
 
     # then
     tasks = Bizflow::DataModel::Task.where(finished_at: nil)
     expect(tasks.map(&:name)).to eq ["task3"]
 
     # when
-    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish(41) }
+    Bizflow::BusinessModel::Task.wraps(tasks).each do |bt|
+      bt.finish(41) do |on|
+        
+        on.success {
+
+        }
+
+        on.already_finished { |res|
+          raise res[:message]
+        }
+
+      end
+
+    end
 
     # then
     tasks = Bizflow::DataModel::Task.where(finished_at: nil)
     expect(tasks.map(&:name)).to eq ["task4"]
 
     # when
-    Bizflow::BusinessModel::Task.wraps(tasks).each { |bt| bt.finish(41) }
+    Bizflow::BusinessModel::Task.wraps(tasks).each do |bt|
+      bt.finish(41) do |on|
+        
+        on.success {
+
+        }
+
+        on.already_finished {
+
+        }
+
+      end
+
+    end
 
     # then
     tasks = Bizflow::DataModel::Task.where(finished_at: nil)
     expect(tasks.map(&:name)).to eq []
-    @bp.reload
-    expect(@bp.finished_at).to_not be nil
+    @b_process.reload
+    expect(@b_process.finished_at).to_not be nil
 
   end
 
   it "follows runned_at, jumped_at times" do
 
-    @bp.run(140)
+    @b_process.start(12) do |on|
 
-    expect(@bp.runned_at).to_not be nil
+      on.success { |res|
 
-    Bizflow::BusinessModel::TaskAction.wrap(@bp.actions[0]).finish
+      }
 
-    expect(@bp.jumped_at).to_not be nil
+      on.already_started { |res|
+        raise "test failed"
+      }
+
+    end
+
+    expect(@b_process.runned_at).to_not be nil
+
+    Bizflow::BusinessModel::TaskAction.wrap(@b_process.actions[0]).finish
 
   end
 

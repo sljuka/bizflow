@@ -15,7 +15,11 @@ module Bizflow
 
       def callback(name, *args)
         raise "Callback '#{name}' not registered" unless @callbacks[name.to_sym]
-        @callbacks[name.to_sym].call(args)
+        @callbacks[name.to_sym].call(args[0])
+      end
+
+      def clear
+        @callbacks.clear()
       end
 
     end
