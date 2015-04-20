@@ -22,4 +22,8 @@ class Bizflow::TaskActionInterpreter
     action.add_task(Bizflow::SemanticModel::Task.new(name, options))
   end
 
+  def input_task(name, options)
+    task(name, options)
+  end
+
 end

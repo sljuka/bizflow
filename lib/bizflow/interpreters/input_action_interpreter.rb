@@ -4,7 +4,7 @@ require "bizflow/semantic_model/handler"
 
 class Bizflow::InputActionInterpreter
 
-  attr_accessor :action, :control_input, :question
+  attr_accessor :action
 
   def initialize(name)
     @action = Bizflow::SemanticModel::InputAction.new(name)
@@ -12,11 +12,6 @@ class Bizflow::InputActionInterpreter
 
   def description(description)
     action.description = description
-  end
-
-  def control_input(name, options = {})
-    control_input = name
-    action.question = options[:question]
   end
 
   def handler(name, options = {})
@@ -27,6 +22,14 @@ class Bizflow::InputActionInterpreter
   def next_actions(actions_hash)
     raise "next actions already defined" if !action.next_actions.empty?
     action.next_actions = actions_hash
+  end
+
+  def question(question)
+    action.question = question
+  end
+
+  def roles(roles_array)
+
   end
 
 end

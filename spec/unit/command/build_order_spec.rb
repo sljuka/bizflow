@@ -7,7 +7,7 @@ describe "build command", command: true do
   before :each do
   	
   	@repo = Bizflow::SemanticModel::DomainRepo.new
-    builder = Bizflow::Lib::SemanticBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts/breakfast"))
+    builder = Bizflow::Lib::SemanticBuilder.new(File.expand_path("#{File.dirname(__FILE__)}/../dsl_scripts/order"))
     builder.repo = @repo
   	builder.build
 
@@ -37,7 +37,7 @@ describe "build command", command: true do
   it "persists task blueprints" do
 
   	Bizflow::Lib::BlueprintBuilder.new.build(@repo)
-  	expect(Bizflow::DataModel::TaskBlueprint.count).to eq 6
+  	expect(Bizflow::DataModel::TaskBlueprint.count).to eq 4
 
   end
 

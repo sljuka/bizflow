@@ -8,7 +8,7 @@ process "make_breakfast" do
   input_action "check_supplies" do
     
     description "checks if there are enaugh eggs, bacon and bread"
-    control_input "supply_status", question: "Are there enaugh supplies?"
+    question "Are there enaugh supplies?"
 
     next_actions(
       not_enaugh_supplies: "get_supplies",

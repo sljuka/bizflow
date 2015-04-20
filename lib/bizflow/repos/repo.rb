@@ -8,8 +8,10 @@ module Bizflow
   
     class Repo
 
+      attr_reader :connection
+
       def initialize
-        Sequel.connect("sqlite://#{db_path}")
+        @connection = Sequel.connect("sqlite://#{db_path}")
         Dir[File.expand_path("../../data_model/*.rb", __FILE__)].each { |file| require_relative file }
       end
 
