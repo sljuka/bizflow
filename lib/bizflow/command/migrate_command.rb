@@ -8,11 +8,16 @@ module Bizflow
 
     def self.run(config, args)
 
+      if(args[:args].empty?)
+        raise "Setup command needs environment argument (production, development, test...)"
+      end
+      environment = args[:args].first
+
       Sequel.extension :migration, :core_extensions
 
       puts "Bizflow: Migrating database"
-      db_path = config[:db_path] || "bizflow_db/bf.db"
-      db_path = "#{Dir.pwd}/#{db_path}"
+      db_path = config[:db_path] || "bizflow_db"
+      db_path = "#{Dir.pwd}/#{db_path}/bizflow_#{environment}.db"
 
       db = Sequel.sqlite(db_path)
 

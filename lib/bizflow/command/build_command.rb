@@ -6,6 +6,11 @@ module Bizflow
 
     def self.run(config, args = [])
 
+      if(args[:args].empty?)
+        raise "Setup command needs environment argument (production, development, test...)"
+      end
+      environment = args[:args].first
+
       puts "Building processes..."
 
       require 'bizflow/lib/semantic_builder'
@@ -16,7 +21,10 @@ module Bizflow
       domain_repo = Bizflow::Lib::SemanticBuilder.new(source_path).build
 
       raise "bizflow database path not specified" if config[:db_path].nil?
-      db_path = "#{Dir.pwd}/#{config[:db_path]}"
+      
+      db_path = "bizflow_db/bf-#{environment}.db"
+      db_path = "#{Dir.pwd}/#{db_path}"
+
       db = Sequel.sqlite(db_path)
 
       Dir["#{File.dirname(__FILE__)}/../model/*.rb"].each { |path| require_relative path }
