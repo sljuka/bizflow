@@ -17,12 +17,13 @@ module Bizflow
 
       puts "Bizflow: Migrating database"
       db_path = config[:db_path] || "bizflow_db"
-      db_path = "#{Dir.pwd}/#{db_path}/bizflow_#{environment}.db"
+      db_path = "#{Dir.pwd}/#{db_path}/bf-#{environment}.db"
 
+      puts db_path
       db = Sequel.sqlite(db_path)
 
       Sequel::Migrator.run(db, File.expand_path("#{File.expand_path(File.dirname(__FILE__))}/../migrations"), :use_transactions=>true)
-      puts "Bizflow: Database migrated"
+      puts "Bizflow: Database bf-#{environment}.db migrated"
 
     end
   end
